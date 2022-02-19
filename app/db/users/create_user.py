@@ -6,4 +6,8 @@ from app.utils.db_utils import session
 def create_user(user_in: UserSignUpIn):
     new_user = UserTable(**user_in.dict())
     session.add(new_user)
-    session.commit()
+    try:
+        session.commit()
+    except:
+        session.rollback()
+        raise

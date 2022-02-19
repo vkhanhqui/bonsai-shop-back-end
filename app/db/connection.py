@@ -7,7 +7,8 @@ from app.core.config import config
 class DBConnection():
     engine = create_engine(
         f"mysql+pymysql://{config.database_username}"
-        f":{config.database_pwd}@localhost:3306/{config.database_name}",
+        f":{config.database_pwd}@{config.database_host}"
+        f"/{config.database_name}",
         echo=True
     )
 
