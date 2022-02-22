@@ -3,5 +3,5 @@ from app.utils.db_utils import session
 
 
 def get_all_roles():
-    users = session.query(RoleTable).all()
-    return users
+    roles = session.query(RoleTable).all()
+    return roles
