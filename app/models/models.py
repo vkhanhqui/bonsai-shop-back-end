@@ -49,7 +49,7 @@ class ProductTable(db_connection.Base):
     bill_managements = relationship("BillManagementTable")
     images = relationship("ImageTable")
     rating = relationship("RatingTable")
-    catgory_id = Column(Integer, ForeignKey('categories.category_id'))
+    category_id = Column(Integer, ForeignKey('categories.category_id'))
 
 
 class ImageTable(db_connection.Base):
@@ -63,7 +63,7 @@ class ImageTable(db_connection.Base):
 class CategoryTable(db_connection.Base):
     __tablename__ = 'categories'
     category_id = Column(Integer, primary_key=True)
-    category_name = Column(String(100), nullable=False)
+    category_name = Column(String(100), nullable=False, unique=True)
     created_at = Column(DateTime, default=datetime.today)
     products = relationship("ProductTable")
     promotion_id = Column(
