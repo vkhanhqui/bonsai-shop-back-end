@@ -19,6 +19,7 @@ class UserTable(db_connection.Base):
     user_id = Column(Integer, primary_key=True)
     username = Column(String(20), nullable=False, unique=True)
     password = Column(String(20), nullable=False)
+    email = Column(String(30), nullable=False, unique=True)
     birthday = Column(Date, nullable=True)
     first_name = Column(String(20), nullable=False)
     last_name = Column(String(20), nullable=False)
