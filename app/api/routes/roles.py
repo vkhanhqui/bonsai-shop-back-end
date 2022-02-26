@@ -54,6 +54,6 @@ async def update_role(
     response_model=_base_domain.Message
 )
 async def delete_role(
-    role_id: str
+    role_id: int
 ):
     return role_service.delete_role(role_id)
