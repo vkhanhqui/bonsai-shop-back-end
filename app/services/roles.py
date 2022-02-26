@@ -19,6 +19,6 @@ class RoleService():
         response = update_role(role_in)
         return response
 
-    def delete_role(self, role_id: str):
+    def delete_role(self, role_id: int):
         _ = delete_role(role_id)
         return {'message': 'Delete successfully'}

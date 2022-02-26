@@ -41,6 +41,6 @@ async def get_all_staffs():
     response_model=_base_domain.Message
 )
 async def delete_staff(
-    staff_id: str
+    staff_id: int
 ):
     return admin_service.delete_staff(staff_id)

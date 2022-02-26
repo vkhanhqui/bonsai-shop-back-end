@@ -5,7 +5,7 @@ from app.api.routes import (
     roles as role_api,
     products as product_api,
     customers as customer_api,
-    users as users_api,
+    # users as users_api,
 )
 
 
@@ -37,9 +37,10 @@ router.include_router(
     tags=['customers'],
     prefix='/customers'
 )
-router.include_router(
-    users_api.router,
-    tags=['users'],
-    prefix='/users'
-)
 
+
+# router.include_router(
+#     users_api.router,
+#     tags=['users'],
+#     prefix='/users'
+# )
