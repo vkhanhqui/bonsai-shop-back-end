@@ -1,5 +1,6 @@
 from fastapi import (
     APIRouter,
+    status,
 )
 import os
 
@@ -10,7 +11,8 @@ router = APIRouter()
 
 
 @router.get(
-    "/get-image"
+    "/get-image",
+    status_code=status.HTTP_200_OK,
 )
 def get_image(
     image_path: str

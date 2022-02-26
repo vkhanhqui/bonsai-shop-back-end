@@ -13,10 +13,10 @@ class StaffInCreate(
 
 
 class StaffRespDetail(
-    _users_domain.UserUsername, _users_domain.UserPwd,
-    _users_domain.FirstName, _users_domain.LastName,
-    _users_domain.Email, _users_domain.Birthday,
-    _base.RoleId, _base.UserId,
+    _users_domain.UserUsername, _users_domain.FirstName,
+    _users_domain.LastName, _users_domain.Email,
+    _users_domain.Birthday, _base.RoleId,
+    _base.UserId,
 ):
 
     class Config:
