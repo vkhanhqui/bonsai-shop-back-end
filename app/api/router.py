@@ -6,6 +6,7 @@ from app.api.routes import (
     products as product_api,
     customers as customer_api,
     # users as users_api,
+    categories as category_api,
 )
 
 
@@ -36,6 +37,13 @@ router.include_router(
     customer_api.router,
     tags=['customers'],
     prefix='/customers'
+)
+
+
+router.include_router(
+    category_api.router,
+    tags=['categories'],
+    prefix='/categories'
 )
 
 
