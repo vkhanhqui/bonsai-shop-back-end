@@ -8,6 +8,7 @@ from app.api.routes import (
     # users as users_api,
     categories as category_api,
     files as file_api,
+    login as login_api,
 )
 
 
@@ -52,4 +53,11 @@ router.include_router(
     file_api.router,
     tags=['files'],
     prefix='/files'
+)
+
+
+router.include_router(
+    login_api.router,
+    tags=['login'],
+    prefix='/login'
 )

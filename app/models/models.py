@@ -18,7 +18,7 @@ class UserTable(db_connection.Base):
     __tablename__ = 'users'
     user_id = Column(Integer, primary_key=True)
     username = Column(String(20), nullable=False, unique=True)
-    password = Column(String(20), nullable=False)
+    hashed_password = Column(String(200), nullable=False)
     email = Column(String(30), nullable=False, unique=True)
     birthday = Column(Date, nullable=True)
     first_name = Column(String(20), nullable=False)
