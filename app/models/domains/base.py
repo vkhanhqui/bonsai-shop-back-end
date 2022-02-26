@@ -52,3 +52,7 @@ class RatingId(BaseModel):
 
 class CommentId(BaseModel):
     comment_id: int = Field(alias='comment_id')
+
+
+class ImageId(BaseModel):
+    image_id: int = Field(alias='image_id')
