@@ -20,6 +20,6 @@ class AdminService():
         response = get_all_staffs()
         return response
 
-    def delete_staff(self, staff_id: str) -> _base_domain.Message:
+    def delete_staff(self, staff_id: int) -> _base_domain.Message:
         _ = delete_staff(staff_id)
         return {'message': 'Delete successfully'}
