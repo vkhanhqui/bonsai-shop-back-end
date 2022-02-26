@@ -18,3 +18,10 @@ class ProductResDetail(
 
       class Config:
         orm_mode = True
+
+class ProductInUpdate(
+    _products_domains.ProductName,
+    _products_domains.ProductPrice,
+    _products_domains.Description,
+):
+    pass
