@@ -1,4 +1,8 @@
-from pydantic import BaseModel, Field
+from pydantic import (
+    BaseModel,
+    Field,
+    EmailStr
+)
 from datetime import date
 
 
@@ -28,3 +32,7 @@ class LastName(BaseModel):
     last_name: str = Field(
         min_length=2,
         alias='last_name')
+
+
+class Email(BaseModel):
+    email: EmailStr = Field(alias='email')
