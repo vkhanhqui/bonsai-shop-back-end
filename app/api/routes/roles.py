@@ -6,7 +6,7 @@ from fastapi import (
 
 from app.services.roles import RoleService
 from app.models.domains import (
-    base as _base_domain
+    base as _base_domains
 )
 from app.models.schemas import (
     roles as _role_schemas,
@@ -51,7 +51,7 @@ async def update_role(
 @router.delete(
     "/delete-role/{role_id}",
     status_code=status.HTTP_200_OK,
-    response_model=_base_domain.Message
+    response_model=_base_domains.Message
 )
 async def delete_role(
     role_id: int

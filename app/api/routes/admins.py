@@ -5,7 +5,7 @@ from fastapi import (
 )
 
 from app.services.admins import AdminService
-from app.models.domains import base as _base_domain
+from app.models.domains import base as _base_domains
 from app.models.schemas import (
     admin as _admin_schemas,
 )
@@ -38,7 +38,7 @@ async def get_all_staffs():
 @router.delete(
     "/delete-staff/{staff_id}",
     status_code=status.HTTP_200_OK,
-    response_model=_base_domain.Message
+    response_model=_base_domains.Message
 )
 async def delete_staff(
     staff_id: int

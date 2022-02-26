@@ -2,7 +2,7 @@ from typing import List
 
 from app.models.domains import (
     products as _products_domains,
-    base as _base_domains,
+    base as _base_domainss,
 )
 
 from app.models.schemas import (
@@ -12,14 +12,14 @@ from app.models.schemas import (
 
 class ProductInCreate(
     _products_domains.ProductName, _products_domains.ProductPrice,
-    _products_domains.Description, _base_domains.CategoryId,
+    _products_domains.Description, _base_domainss.CategoryId,
 ):
     pass
 
 
 class ProductRespDetail(
     _products_domains.ProductName, _products_domains.ProductPrice,
-    _products_domains.Description, _base_domains.ProductId,
+    _products_domains.Description, _base_domainss.ProductId,
 ):
     images: List[_images_schemas.ImageRespDetail]
 

@@ -1,4 +1,4 @@
-from app.db.users.get_user_by_id import get_user_by_id
+from app.db.customers.get_user_by_id import get_user_by_id
 
 
 class CustomerService():

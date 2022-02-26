@@ -10,7 +10,7 @@ from app.db.products.get_product_by_id import get_product_by_id
 # from app.db.products.update_product_by_id import update_product_by_id
 from app.db.products.delete_product_by_id import delete_product_by_id
 from app.models.domains import (
-    base as _base_domains,
+    base as _base_domainss,
 )
 from app.models.schemas import (
     products as _products_schemas,
@@ -74,7 +74,7 @@ class ProductService():
 
     def delete_product_by_id(
         self, product_id: int
-    ) -> _base_domains.Message:
+    ) -> _base_domainss.Message:
         dirname = f'media/products/{product_id}'
         _ = delete_product_by_id(product_id)
         _ = _file_utils.remove_dir(dirname)

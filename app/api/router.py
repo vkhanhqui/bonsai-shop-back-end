@@ -53,10 +53,3 @@ router.include_router(
     tags=['files'],
     prefix='/files'
 )
-
-
-# router.include_router(
-#     users_api.router,
-#     tags=['users'],
-#     prefix='/users'
-# )

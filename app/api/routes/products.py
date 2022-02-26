@@ -11,7 +11,7 @@ from app.models.schemas import (
 )
 
 from app.models.domains import (
-    base as _base_domain
+    base as _base_domains
 )
 
 router = APIRouter()
@@ -69,7 +69,7 @@ async def get_product_by_id(product_id: int):
 @router.delete(
     "/delete-product-by-id/{product_id}",
     status_code=status.HTTP_200_OK,
-    response_model=_base_domain.Message
+    response_model=_base_domains.Message
 )
 async def delete_product_by_id(product_id: int):
     return product_service.delete_product_by_id(product_id)

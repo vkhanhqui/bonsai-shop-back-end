@@ -6,7 +6,7 @@ from fastapi import (
 
 from app.services.categories import CategoryService
 from app.models.domains import (
-    base as _base_domain
+    base as _base_domains
 )
 from app.models.schemas import (
     categories as _category_schemas,
@@ -51,7 +51,7 @@ async def update_category(
 @router.delete(
     "/delete-category/{category_id}",
     status_code=status.HTTP_200_OK,
-    response_model=_base_domain.Message
+    response_model=_base_domains.Message
 )
 async def delete_category(
     category_id: int
