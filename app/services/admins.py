@@ -1,5 +1,5 @@
 from typing import List
-from app.db.admins.create_staff import create_staff
+from app.db.admins.create_user import create_user
 from app.db.admins.delete_staff import delete_staff
 from app.db.admins.get_all_staffs import get_all_staffs
 from app.models.schemas import admin as _admin_schemas
@@ -11,7 +11,7 @@ class AdminService():
     def create_staff(
         self, staff_in: _admin_schemas.StaffInCreate
     ) -> _admin_schemas.StaffRespDetail:
-        response = create_staff(staff_in)
+        response = create_user(staff_in, role_name='staff')
         return response
 
     def get_all_staffs(

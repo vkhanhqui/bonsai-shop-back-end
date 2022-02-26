@@ -20,3 +20,14 @@ customer_service = CustomerService()
 )
 async def get_user_by_id(user_id: str):
     return customer_service.get_user_by_id(user_id)
+
+
+@router.post(
+    "/create-customer",
+    status_code=status.HTTP_201_CREATED,
+    response_model=_admin_schemas.StaffRespDetail
+)
+async def create_customer(
+    customer_in: _admin_schemas.StaffInCreate
+):
+    return customer_service.create_customer(customer_in)
