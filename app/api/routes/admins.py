@@ -54,3 +54,14 @@ async def delete_staff(
 )
 async def get_all_bills():
     return admin_service.get_all_bills()
+
+
+@router.put(
+    '/confirm-bill/{bill_id}',
+    response_model=_base_domains.Message,
+    status_code=status.HTTP_200_OK
+)
+async def confirm_bill(
+    bill_id: int,
+):
+    return admin_service.confirm_bill(bill_id)
