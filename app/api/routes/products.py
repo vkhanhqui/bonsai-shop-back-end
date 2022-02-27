@@ -73,3 +73,12 @@ async def get_product_by_id(product_id: int):
 )
 async def delete_product_by_id(product_id: int):
     return product_service.delete_product_by_id(product_id)
+
+
+@router.get(
+    "/get-products-by-category/{category_id}",
+    status_code=status.HTTP_200_OK,
+    response_model=List[_product_schemas.ProductRespDetail],
+)
+async def get_products_by_category(category_id: int):
+    return product_service.get_products_by_category(category_id)

@@ -9,6 +9,7 @@ from app.db.products.get_all_products import get_all_products
 from app.db.products.get_product_by_id import get_product_by_id
 # from app.db.products.update_product_by_id import update_product_by_id
 from app.db.products.delete_product_by_id import delete_product_by_id
+from app.db.products.get_products_by_category import get_products_by_category
 from app.models.domains import (
     base as _base_domainss,
 )
@@ -79,3 +80,9 @@ class ProductService():
         _ = delete_product_by_id(product_id)
         _ = _file_utils.remove_dir(dirname)
         return {'message': 'Delete successfully'}
+
+    def get_products_by_category(
+        self, category_id: int
+    ) -> List[_products_schemas.ProductRespDetail]:
+        response = get_products_by_category(category_id)
+        return response
