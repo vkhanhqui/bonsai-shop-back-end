@@ -1,7 +1,7 @@
 from app.db.customers.get_user_by_id import get_user_by_id
 from app.db.admins.create_user import create_user
 from app.models.schemas import (
-    admin as _admin_schemas,
+    admins as _admin_schemas,
 )
 
 

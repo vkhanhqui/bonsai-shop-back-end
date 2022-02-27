@@ -7,7 +7,8 @@ from fastapi import (
 from app.services.admins import AdminService
 from app.models.domains import base as _base_domains
 from app.models.schemas import (
-    admin as _admin_schemas,
+    admins as _admin_schemas,
+    bills as _bills_schemas,
 )
 
 
@@ -44,3 +45,12 @@ async def delete_staff(
     staff_id: int
 ):
     return admin_service.delete_staff(staff_id)
+
+
+@router.get(
+    '/get-all-bills',
+    response_model=List[_bills_schemas.AdminBillRespDetail],
+    status_code=status.HTTP_200_OK
+)
+async def get_all_bills():
+    return admin_service.get_all_bills()

@@ -85,12 +85,14 @@ class BillTable(db_connection.Base):
     __tablename__ = 'bills'
     bill_id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.today)
+    bill_status = Column(String(100), nullable=False)
     customer_id = Column(Integer, ForeignKey('users.user_id'))
     staff_or_admin_id = Column(
         Integer, ForeignKey('users.user_id'),
         nullable=True
     )
     address_id = Column(Integer, ForeignKey('addresses.address_id'))
+    bill_managements = relationship("BillManagementTable")
 
 
 class BillManagementTable(db_connection.Base):
@@ -100,6 +102,7 @@ class BillManagementTable(db_connection.Base):
     number_product = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     bills = relationship("BillTable")
+    product = relationship("ProductTable")
 
 
 class AddressTable(db_connection.Base):
