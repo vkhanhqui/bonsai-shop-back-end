@@ -1,5 +1,5 @@
 from app.models.models import UserTable
-from app.models.schemas.admin import StaffInCreate
+from app.models.schemas.admins import StaffInCreate
 from app.utils.db_utils import session
 from app.utils.auth_utils import get_password_hash
 

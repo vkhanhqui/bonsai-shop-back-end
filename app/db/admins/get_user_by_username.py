@@ -8,4 +8,4 @@ def get_user_by_username(username: str) -> UserTable:
         params(username=username).all()
     if user:
         return user[0]
-    return []
+    return None

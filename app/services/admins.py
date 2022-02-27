@@ -2,8 +2,13 @@ from typing import List
 from app.db.admins.create_user import create_user
 from app.db.admins.delete_staff import delete_staff
 from app.db.admins.get_all_staffs import get_all_staffs
-from app.models.schemas import admin as _admin_schemas
+from app.db.bills.get_all_bills import get_all_bills
 from app.models.domains import base as _base_domains
+from app.models.schemas import (
+    admins as _admin_schemas,
+    bills as _bills_schemas,
+)
+from app.utils import bill_utils as _bill_utils
 
 
 class AdminService():
@@ -23,3 +28,9 @@ class AdminService():
     def delete_staff(self, staff_id: int) -> _base_domains.Message:
         _ = delete_staff(staff_id)
         return {'message': 'Delete successfully'}
+
+    def get_all_bills(
+        self
+    ) -> List[_bills_schemas.AdminBillRespDetail]:
+        bills = get_all_bills()
+        return _bill_utils.get_bills_in_detail(bills, is_admin=True)

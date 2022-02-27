@@ -5,7 +5,7 @@ from fastapi import (
 
 from app.services.customers import CustomerService
 from app.models.schemas import (
-    admin as _admin_schemas,
+    admins as _admin_schemas,
 )
 
 
