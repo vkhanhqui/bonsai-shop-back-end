@@ -3,4 +3,4 @@ from pydantic import BaseModel, Field
 
 class ImagePath(BaseModel):
     image_path: str = Field(
-        alias='image_path')
+        None, alias='image_path')

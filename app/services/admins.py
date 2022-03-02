@@ -2,7 +2,7 @@ from typing import List
 from app.db.admins.create_user import create_user
 from app.db.admins.delete_staff import delete_staff
 from app.db.admins.get_all_staffs import get_all_staffs
-from app.db.bills.get_all_bills import get_all_bills
+from app.db.bills.admin_get_all_bills import get_all_bills
 from app.db.bills.update_bill_by_id import update_bill_by_id
 from app.models.domains import base as _base_domains
 from app.models.schemas import (
