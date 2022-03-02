@@ -1,6 +1,7 @@
 from typing import List
 from app.db.bills.customer_get_all_bills import get_all_bills
 from app.db.bills.get_bill_detail import get_bill_detail
+from app.db.bills.get_cart import get_cart
 from app.db.customers.get_user_by_id import get_user_by_id
 from app.db.admins.create_user import create_user
 from app.db.images.get_main_image import get_main_image
@@ -51,7 +52,16 @@ class CustomerService():
             bill_total += float(bill_total_each_prod)
             products.append(obj_resp)
         response = {
+            'bill_id': bill_id,
             'bill_total': bill_total,
             'products': products
         }
         return response
+
+    def get_cart(
+        self, user_id: str
+    ) -> _bills_schemas.CustomerBillDetailResp:
+        cart = get_cart(user_id)
+        if cart:
+            return self.get_bill_detail(cart.bill_id)
+        return None

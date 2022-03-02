@@ -51,3 +51,12 @@ async def get_bills(user_id: str):
 )
 async def get_bill_detail(bill_id: str):
     return customer_service.get_bill_detail(bill_id)
+
+
+@router.get(
+    '/get-cart/{user_id}',
+    response_model=_bills_schemas.CustomerBillDetailResp,
+    status_code=status.HTTP_200_OK
+)
+async def get_cart(user_id: str):
+    return customer_service.get_cart(user_id)

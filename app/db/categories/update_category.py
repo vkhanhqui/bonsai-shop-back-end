@@ -7,4 +7,5 @@ def update_category(category_in: CategoryInUpdate):
     _ = session.query(CategoryTable)\
        .filter(CategoryTable.category_id == category_in.category_id)\
        .update({CategoryTable.category_name: category_in.category_name})
+    session.commit()
     return category_in

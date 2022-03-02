@@ -49,7 +49,7 @@ class CustomerBillDetail(
 
 
 class CustomerBillDetailResp(
-    _bills_domain.BillTotal
+    _bills_domain.BillTotal, _base_domain.BillId,
 ):
     products: List[CustomerBillDetail]
 
