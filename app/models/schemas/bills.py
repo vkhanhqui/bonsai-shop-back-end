@@ -63,3 +63,10 @@ class CustomerAddCardIn(
     _bills_domain.BillManagementNumberProduct
 ):
     pass
+
+
+class CustomerRemoveItemsIn(
+    _base_domain.BillId, _base_domain.ProductId,
+    _bills_domain.BillManagementNumberProduct
+):
+    pass

@@ -23,14 +23,24 @@ insert into products(product_name, product_price, category_id, created_at)
 	values('string', 1, 1, '2022-02-27 09:23:39');
 select * from products;
 
+insert into images(image_path, product_id, created_at)
+	values('media/products/1/images/25wpvBXVCrN2Pb8bcjN4gaQ5GTy.jpeg', 1, '2022-02-27 09:23:39');
+insert into images(image_path, product_id, created_at)
+	values('media/products/1/images/25wpv4MihEa0ktjoXVe010Hmg1O.jpeg', 1, '2022-02-27 09:23:39');
+select * from images;
+
 insert into addresses(city, district, full_address, user_id, created_at)
 	values('string', 'string', 'string', 1, '2022-02-27 09:23:39');
 select * from addresses;
 
 insert into bills(customer_id, address_id, bill_status, created_at)
-	values(1, 1, 'new', '2022-02-27 09:23:39');
+	values(1, 1, 'Customer created', '2022-02-27 09:23:39');
 select * from bills;
 
 insert into billmanagements(product_id, bill_id, number_product, created_at)
 	values(1, 1, 10, '2022-02-27 09:23:39');
+insert into billmanagements(product_id, bill_id, number_product, created_at)
+	values(2, 1, 10, '2022-02-27 09:23:39');
+insert into billmanagements(product_id, bill_id, number_product, created_at)
+	values(3, 1, 13, '2022-02-27 09:23:39');
 select * from billmanagements;
