@@ -10,6 +10,7 @@ from app.models.schemas import (
     bills as _bills_schemas,
 )
 from app.utils import bill_utils as _bill_utils
+from app.core.config import config
 
 
 class AdminService():
@@ -39,6 +40,6 @@ class AdminService():
     def confirm_bill(
         self, bill_id: int
     ) -> _base_domains.Message:
-        bill_status = 'Confirmed'
+        bill_status = config.bill_status.get('admin_confirmed')
         _ = update_bill_by_id(bill_id, bill_status)
         return {'message': bill_status}

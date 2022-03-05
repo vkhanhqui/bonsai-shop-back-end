@@ -9,6 +9,9 @@ from app.models.schemas import (
     admins as _admin_schemas,
     bills as _bills_schemas,
 )
+from app.models.domains import (
+    base as _base_domains,
+)
 
 
 router = APIRouter()
@@ -60,3 +63,12 @@ async def get_bill_detail(bill_id: str):
 )
 async def get_cart(user_id: str):
     return customer_service.get_cart(user_id)
+
+
+@router.post(
+    '/add-to-cart',
+    response_model=_base_domains.Message,
+    status_code=status.HTTP_200_OK
+)
+async def add_to_cart(card_in: _bills_schemas.CustomerAddCardIn):
+    return customer_service.add_to_cart(card_in)

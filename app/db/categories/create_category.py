@@ -10,6 +10,6 @@ def create_category(category_in: CategoryInCreate) -> CategoryTable:
         session.flush()
         session.commit()
         return new_category
-    except:
+    except Exception:
         session.rollback()
         raise

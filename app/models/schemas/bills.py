@@ -13,6 +13,7 @@ from app.models.schemas import (
 class BillManagementRespDetail(
     _base_domain.ProductId, _products_domain.ProductName,
     _products_domain.ProductPrice, _bills_domain.BillManagementNumberProduct,
+    _images_domain.ImagePath,
 ):
 
     class Config:
@@ -55,3 +56,10 @@ class CustomerBillDetailResp(
 
     class Config:
         orm_mode = True
+
+
+class CustomerAddCardIn(
+    _base_domain.UserId, _base_domain.ProductId,
+    _bills_domain.BillManagementNumberProduct
+):
+    pass
