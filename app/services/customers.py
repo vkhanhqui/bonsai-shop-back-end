@@ -1,13 +1,25 @@
 from typing import List
+from app.db.bills.create_bill import create_bill
 from app.db.bills.customer_get_all_bills import get_all_bills
+from app.db.bills.get_bill_by_user_id_and_bill_status import \
+    get_bill_by_user_id_and_bill_status
 from app.db.bills.get_bill_detail import get_bill_detail
 from app.db.bills.get_cart import get_cart
+from app.db.bills.update_bill_mnm_by_product_id_and_bill_id import \
+    update_bill_mnm_by_product_id_and_bill_id
 from app.db.customers.get_user_by_id import get_user_by_id
 from app.db.admins.create_user import create_user
 from app.db.images.get_main_image import get_main_image
 from app.models.schemas import (
     admins as _admin_schemas,
     bills as _bills_schemas,
+)
+from app.models.domains import (
+    base as _base_domains,
+)
+from app.core.config import config
+from app.utils import (
+    file_utils as _file_utils,
 )
 
 
@@ -39,15 +51,15 @@ class CustomerService():
             product_id = obj.product.product_id
             product_price = obj.product.product_price
             number_product = obj.number_product
-            main_image = get_main_image(product_id)
+            main_image = _file_utils.map_image(get_main_image(product_id))
             bill_total_each_prod = number_product * product_price
             obj_resp = {
                 'number_product': number_product,
                 'product_price': product_price,
                 'product_name': obj.product.product_name,
-                'image_path': main_image,
                 'product_id': product_id,
                 'bill_total': bill_total_each_prod,
+                **main_image
             }
             bill_total += float(bill_total_each_prod)
             products.append(obj_resp)
@@ -65,3 +77,29 @@ class CustomerService():
         if cart:
             return self.get_bill_detail(cart.bill_id)
         return None
+
+    def add_to_cart(
+        self, card_in: _bills_schemas.CustomerAddCardIn
+    ) -> _base_domains.Message:
+        user_id = card_in.user_id
+        product_id = card_in.product_id
+        number_product = card_in.number_product
+        bill_status = config.bill_status.get('customer_created')
+        bill = get_bill_by_user_id_and_bill_status(
+            user_id, bill_status=bill_status
+        )
+        msg_response = 'Created the cart successfully'
+        if bill:
+            # add to cart
+            _ = update_bill_mnm_by_product_id_and_bill_id(
+                product_id, bill.bill_id,
+                number_product
+            )
+            msg_response = 'Updated the cart successfully'
+        else:
+            # create a cart
+            _ = create_bill(
+                user_id, product_id,
+                number_product
+            )
+        return {'message': msg_response}

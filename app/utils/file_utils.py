@@ -40,10 +40,14 @@ def remove_dir(dirname: str) -> None:
     shutil.rmtree(dirname)
 
 
-def map_image(image: ImageTable) -> dict:
-    image_path = f"{config.base_url}/bonsai-backend/\
-        files/get-image?image_path={image.image_path}"
-    return {'image_path': image_path.replace(' ', '')}
+def map_image(image) -> dict:
+    path = f"{config.base_url}/bonsai-backend/\
+        files/get-image?image_path="
+    if isinstance(image, ImageTable):
+        path += f'{image.image_path}'
+    else:
+        path += f'{image}'
+    return {'image_path': path.replace(' ', '')}
 
 
 def map_images(images: List[ImageTable]) -> List[dict]:

@@ -12,6 +12,11 @@ class Settings(BaseSettings):
     secret = '436d771eed17d16d7ad00d45ce0ca7a6d0dda2fb5901ff2d87375453a713fd0c'
     algorithm = "HS256"
     access_token_expire_minutes = 30
+    bill_status = {
+        'customer_created': 'Customer created',
+        'customer_confirmed': 'Customer confirmed',
+        'admin_confirmed': 'Admin confirmed',
+    }
 
 
 class LocalSetting(Settings):
