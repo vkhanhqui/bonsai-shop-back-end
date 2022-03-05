@@ -5,10 +5,10 @@ from app.api.routes import (
     roles as role_api,
     products as product_api,
     customers as customer_api,
-    # users as users_api,
     categories as category_api,
     files as file_api,
     login as login_api,
+    addresses as address_api,
 )
 
 
@@ -60,4 +60,11 @@ router.include_router(
     login_api.router,
     tags=['login'],
     prefix='/login'
+)
+
+
+router.include_router(
+    address_api.router,
+    tags=['addresses'],
+    prefix='/addresses'
 )
