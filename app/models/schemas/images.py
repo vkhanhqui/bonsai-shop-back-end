@@ -11,7 +11,8 @@ class ImageInCreate(
 
 
 class ImageRespDetail(
-    _images_domain.ImagePath, _base_domains.CreateAt,
+    _images_domain.ImagePath,
+    # _base_domains.CreateAt,
 ):
 
     class Config:

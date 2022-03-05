@@ -55,7 +55,7 @@ class ProductTable(db_connection.Base):
 class ImageTable(db_connection.Base):
     __tablename__ = 'images'
     image_id = Column(Integer, primary_key=True)
-    image_path = Column(String(100), nullable=False)
+    image_path = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     product_id = Column(Integer, ForeignKey('products.product_id'))
 

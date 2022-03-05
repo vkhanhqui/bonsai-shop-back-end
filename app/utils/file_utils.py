@@ -1,6 +1,9 @@
 import os
 import shutil
+from typing import List
 
+from app.core.config import config
+from app.models.models import ImageTable
 from app.utils import (
     generate_utils as _generate_utils,
 )
@@ -35,3 +38,15 @@ def get_new_filename(filename: str):
 
 def remove_dir(dirname: str) -> None:
     shutil.rmtree(dirname)
+
+
+def map_image(image: ImageTable) -> dict:
+    image_path = f"{config.base_url}/bonsai-backend/\
+        files/get-image?image_path={image.image_path}"
+    return {'image_path': image_path.replace(' ', '')}
+
+
+def map_images(images: List[ImageTable]) -> List[dict]:
+    return list(
+        map(map_image, images)
+    )

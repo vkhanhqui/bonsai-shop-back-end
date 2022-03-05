@@ -50,20 +50,32 @@ class ProductService():
                 'product_id': product_id,
                 'image_path': image_path,
             })
-            image_responses.append(create_image(image_in))
+            image_db = _file_utils.map_image(create_image(image_in))
+            image_responses.append(image_db)
         response.update({'images': image_responses})
         return response
 
     def get_all_products(
         self
     ) -> List[_products_schemas.ProductRespDetail]:
-        response = get_all_products()
+        products = get_all_products()
+        response = []
+        for product in products:
+            product_response = _db_utils.row_to_dict(product)
+            product_response.update({
+                'images': _file_utils.map_images(product.images)
+            })
+            response.append(product_response)
         return response
 
     def get_product_by_id(
         self, product_id: int
     ) -> _products_schemas.ProductRespDetail:
-        response = get_product_by_id(product_id)
+        product = get_product_by_id(product_id)
+        response = _db_utils.row_to_dict(product)
+        response.update({
+            'images': _file_utils.map_images(product.images)
+        })
         return response
 
     # def update_product_by_id(
