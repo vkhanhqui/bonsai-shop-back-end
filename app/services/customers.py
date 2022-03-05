@@ -6,6 +6,7 @@ from app.db.bills.get_bill_by_user_id_and_bill_status import \
 from app.db.bills.get_bill_detail import get_bill_detail
 from app.db.bills.get_cart import get_cart
 from app.db.bills.remove_items_from_bill import remove_items_from_bill
+from app.db.bills.update_bill_by_id import update_bill_by_id
 from app.db.bills.update_bill_mnm_by_product_id_and_bill_id import \
     update_bill_mnm_by_product_id_and_bill_id
 from app.db.customers.get_user_by_id import get_user_by_id
@@ -110,3 +111,13 @@ class CustomerService():
     ) -> _base_domains.Message:
         _ = remove_items_from_bill(**card_in.dict())
         return {'message': 'Removed items successfully'}
+
+    def confirm_bill(
+        self, bill_in: _bills_schemas.CustomerConfirmBillIn
+    ) -> _base_domains.Message:
+        bill_status = config.bill_status.get('customer_confirmed')
+        _ = update_bill_by_id(
+            bill_in.bill_id, bill_status,
+            bill_in.address_id
+        )
+        return {'message': bill_status}
