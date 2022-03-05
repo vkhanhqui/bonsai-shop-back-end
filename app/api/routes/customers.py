@@ -83,3 +83,14 @@ async def remove_items_from_cart(
     card_in: _bills_schemas.CustomerRemoveItemsIn
 ):
     return customer_service.remove_items_from_cart(card_in)
+
+
+@router.put(
+    '/confirm-bill',
+    response_model=_base_domains.Message,
+    status_code=status.HTTP_200_OK
+)
+async def confirm_bill(
+    bill_in: _bills_schemas.CustomerConfirmBillIn,
+):
+    return customer_service.confirm_bill(bill_in)

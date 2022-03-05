@@ -70,3 +70,9 @@ class CustomerRemoveItemsIn(
     _bills_domain.BillManagementNumberProduct
 ):
     pass
+
+
+class CustomerConfirmBillIn(
+    _base_domain.BillId, _base_domain.AddressId,
+):
+    pass
