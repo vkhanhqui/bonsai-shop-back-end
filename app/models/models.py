@@ -108,9 +108,9 @@ class BillManagementTable(db_connection.Base):
 class AddressTable(db_connection.Base):
     __tablename__ = 'addresses'
     address_id = Column(Integer, primary_key=True)
-    city = Column(String(100), nullable=True)
-    district = Column(String(100), nullable=True)
-    full_address = Column(String(100), nullable=True)
+    city = Column(String(100), nullable=False)
+    district = Column(String(100), nullable=False)
+    full_address = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     user_id = Column(Integer, ForeignKey('users.user_id'))
 
