@@ -86,12 +86,15 @@ class BillTable(db_connection.Base):
     bill_id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.today)
     bill_status = Column(String(100), nullable=False)
+    city = Column(String(100), nullable=True)
+    district = Column(String(100), nullable=True)
+    phone_number = Column(String(13), nullable=True)
+    full_address = Column(Text, nullable=True)
     customer_id = Column(Integer, ForeignKey('users.user_id'))
     staff_or_admin_id = Column(
         Integer, ForeignKey('users.user_id'),
         nullable=True
     )
-    address_id = Column(Integer, ForeignKey('addresses.address_id'))
     bill_managements = relationship("BillManagementTable")
 
 
@@ -110,6 +113,7 @@ class AddressTable(db_connection.Base):
     address_id = Column(Integer, primary_key=True)
     city = Column(String(100), nullable=False)
     district = Column(String(100), nullable=False)
+    phone_number = Column(String(13), nullable=False)
     full_address = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     user_id = Column(Integer, ForeignKey('users.user_id'))

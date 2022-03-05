@@ -14,6 +14,12 @@ def get_bills_in_detail(
         bill_dict = bill._asdict()
         bill_table = bill_dict.get('BillTable')
         bill_id = bill_table.bill_id
+        address = {
+            'phone_number': bill_table.phone_number,
+            'district': bill_table.district,
+            'city': bill_table.city,
+            'full_address': bill_table.full_address,
+        }
         if bill_id not in bill_ids:
             bill_ids.add(bill_id)
             bill_managements = bill_table.bill_managements
@@ -21,6 +27,7 @@ def get_bills_in_detail(
                 'bill_id': bill_id,
                 'created_at': bill_table.created_at,
                 'bill_status': bill_table.bill_status,
+                **address,
                 'customer': get_user_by_id(bill_table.customer_id),
                 'bill_managements': []
             }

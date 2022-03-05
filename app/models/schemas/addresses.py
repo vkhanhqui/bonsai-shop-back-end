@@ -7,6 +7,7 @@ from app.models.domains import (
 class AddressInCreate(
     _addresses_domain.AddressFullAddress, _addresses_domain.AddressCity,
     _addresses_domain.AddressDistrict, _base.UserId,
+    _addresses_domain.AddressPhoneNumber,
 ):
     pass
 
@@ -14,7 +15,7 @@ class AddressInCreate(
 class AddressRespDetail(
     _addresses_domain.AddressFullAddress, _addresses_domain.AddressCity,
     _addresses_domain.AddressDistrict, _base.UserId,
-    _base.AddressId,
+    _base.AddressId, _addresses_domain.AddressPhoneNumber,
 ):
 
     class Config:
@@ -24,5 +25,6 @@ class AddressRespDetail(
 class AddressInUpdate(
     _addresses_domain.AddressFullAddress, _addresses_domain.AddressCity,
     _addresses_domain.AddressDistrict, _base.AddressId,
+    _addresses_domain.AddressPhoneNumber,
 ):
     pass

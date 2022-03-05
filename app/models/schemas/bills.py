@@ -4,6 +4,7 @@ from app.models.domains import (
     base as _base_domain,
     bills as _bills_domain,
     images as _images_domain,
+    addresses as _addresses_domain,
 )
 from app.models.schemas import (
     admins as _admins_schemas,
@@ -22,7 +23,9 @@ class BillManagementRespDetail(
 
 class AdminBillRespDetail(
     _base_domain.CreateAt, _base_domain.BillId,
-    _bills_domain.BillStatus
+    _bills_domain.BillStatus, _addresses_domain.AddressFullAddress,
+    _addresses_domain.AddressCity, _addresses_domain.AddressDistrict,
+    _addresses_domain.AddressPhoneNumber,
 ):
     bill_managements: List[BillManagementRespDetail]
     staff_or_admin: _admins_schemas.StaffRespDetail = None
