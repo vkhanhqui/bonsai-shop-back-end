@@ -72,3 +72,14 @@ async def get_cart(user_id: str):
 )
 async def add_to_cart(card_in: _bills_schemas.CustomerAddCardIn):
     return customer_service.add_to_cart(card_in)
+
+
+@router.put(
+    '/remove-items-from-cart',
+    response_model=_base_domains.Message,
+    status_code=status.HTTP_200_OK
+)
+async def remove_items_from_cart(
+    card_in: _bills_schemas.CustomerRemoveItemsIn
+):
+    return customer_service.remove_items_from_cart(card_in)
