@@ -24,7 +24,7 @@ class LocalSetting(Settings):
     database_pwd = 'root'
     database_name = 'bonsai_db'
     database_host = 'localhost:3306'
-    base_url = 'localhost:8000'
+    base_url = 'http://localhost:8000'
 
 
 class DockerSettings(Settings):
