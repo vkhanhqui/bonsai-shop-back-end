@@ -2,6 +2,7 @@ from typing import List
 from fastapi import (
     APIRouter,
     status,
+    Depends,
 )
 
 from app.services.addresses import AddressService
@@ -10,7 +11,9 @@ from app.models.domains import (
 )
 from app.models.schemas import (
     addresses as _address_schemas,
+    auth as _auth_schemas
 )
+from app.utils import auth_utils as _auth_utils
 
 
 router = APIRouter()
@@ -23,18 +26,25 @@ address_service = AddressService()
     response_model=_address_schemas.AddressRespDetail
 )
 async def create_address(
-    address_in: _address_schemas.AddressInCreate
+    address_in: _address_schemas.AddressInCreate,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return address_service.create_address(address_in)
+    return address_service.create_address(current_user, address_in)
 
 
 @router.get(
-    '/get-all-addresses/{user_id}',
+    '/get-all-addresses',
     response_model=List[_address_schemas.AddressRespDetail],
     status_code=status.HTTP_200_OK
 )
-async def get_all_addresses(user_id: int):
-    return address_service.get_all_addresses_by_user_id(user_id)
+async def get_all_addresses(
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return address_service.get_all_addresses_by_user_id(
+        current_user.user_id
+    )
 
 
 @router.put(
@@ -43,7 +53,9 @@ async def get_all_addresses(user_id: int):
     response_model=_address_schemas.AddressInUpdate
 )
 async def update_address(
-    address_in: _address_schemas.AddressInUpdate
+    address_in: _address_schemas.AddressInUpdate,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
     return address_service.update_address(address_in)
 
@@ -54,6 +66,8 @@ async def update_address(
     response_model=_base_domains.Message
 )
 async def delete_address(
-    address_id: int
+    address_id: int,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
     return address_service.delete_address(address_id)

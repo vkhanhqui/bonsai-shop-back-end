@@ -22,7 +22,7 @@ admin_service = AdminService()
     response_model=_admin_schemas.StaffRespDetail
 )
 async def create_staff(
-    staff_in: _admin_schemas.StaffInCreate
+    staff_in: _admin_schemas.StaffInCreate,
 ):
     return admin_service.create_staff(staff_in)
 

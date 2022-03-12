@@ -8,8 +8,13 @@ from app.models.schemas import addresses as _address_schemas
 
 class AddressService():
 
-    def create_address(self, address_in: _address_schemas.AddressInCreate):
-        response = create_address(address_in)
+    def create_address(
+        self, current_user,
+        address_in: _address_schemas.AddressInCreate
+    ):
+        response = create_address(
+            current_user.user_id, address_in
+        )
         return response
 
     def get_all_addresses_by_user_id(self, user_id: int):

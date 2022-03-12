@@ -124,9 +124,13 @@ class CustomerService():
 
     # new flow
     def confirm_bill(
-        self, card_in: _bills_schemas.CustomerConfirmBillIn
+        self, current_user,
+        card_in: _bills_schemas.CustomerConfirmBillIn
     ) -> _base_domains.Message:
         bill_status = config.bill_status.get('customer_confirmed')
         # create a cart
-        _ = confirm_bill(**card_in.dict())
+        _ = confirm_bill(
+            **{'user_id': current_user.user_id},
+            **card_in.dict()
+        )
         return {'message': bill_status}
