@@ -2,6 +2,7 @@ from typing import List
 from fastapi import (
     APIRouter,
     status,
+    Depends,
 )
 
 from app.services.categories import CategoryService
@@ -10,7 +11,9 @@ from app.models.domains import (
 )
 from app.models.schemas import (
     categories as _category_schemas,
+    auth as _auth_schemas,
 )
+from app.utils import auth_utils as _auth_utils
 
 
 router = APIRouter()
@@ -23,9 +26,11 @@ category_service = CategoryService()
     response_model=_category_schemas.CategoryRespDetail
 )
 async def create_category(
-    category_in: _category_schemas.CategoryInCreate
+    category_in: _category_schemas.CategoryInCreate,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return category_service.create_category(category_in)
+    return category_service.create_category(current_user, category_in)
 
 
 @router.get(
@@ -43,9 +48,11 @@ async def get_all_categories():
     response_model=_category_schemas.CategoryInUpdate
 )
 async def update_category(
-    category_in: _category_schemas.CategoryInUpdate
+    category_in: _category_schemas.CategoryInUpdate,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return category_service.update_category(category_in)
+    return category_service.update_category(current_user, category_in)
 
 
 @router.delete(
@@ -54,6 +61,8 @@ async def update_category(
     response_model=_base_domains.Message
 )
 async def delete_category(
-    category_id: int
+    category_id: int,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return category_service.delete_category(category_id)
+    return category_service.delete_category(current_user, category_id)

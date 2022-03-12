@@ -71,7 +71,7 @@ def is_admin(user_id: int, is_raise_err: bool):
     if user.role_id == 1:
         return True
     if is_raise_err:
-        HTTPException(status_code=403, detail='Forbidden')
+        raise HTTPException(status_code=403, detail='Forbidden')
     return False
 
 
@@ -80,7 +80,7 @@ def is_staff(user_id: int, is_raise_err: bool):
     if user.role_id == 2:
         return True
     if is_raise_err:
-        HTTPException(status_code=403, detail='Forbidden')
+        raise HTTPException(status_code=403, detail='Forbidden')
     return False
 
 
@@ -89,5 +89,5 @@ def is_admin_or_staff(user_id: int, is_raise_err: bool):
     if user.role_id == 1 or user.role_id == 2:
         return True
     if is_raise_err:
-        HTTPException(status_code=403, detail='Forbidden')
+        raise HTTPException(status_code=403, detail='Forbidden')
     return False
