@@ -10,6 +10,6 @@ def create_image(image_in: ImageInCreate) -> ImageTable:
         session.flush()
         session.commit()
         return new_image
-    except:
+    except Exception:
         session.rollback()
         raise

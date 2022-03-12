@@ -2,16 +2,17 @@ from typing import List
 from fastapi import (
     UploadFile,
 )
-from app.db.images.create_image import create_image
 
+from app.db.images.delete_image import delete_image
+from app.db.images.get_image_by_id import get_image_by_id
 from app.db.products.create_product import create_product
 from app.db.products.get_all_products import get_all_products
 from app.db.products.get_product_by_id import get_product_by_id
-# from app.db.products.update_product_by_id import update_product_by_id
 from app.db.products.delete_product_by_id import delete_product_by_id
 from app.db.products.get_products_by_category import get_products_by_category
+from app.db.products.update_product_by_id import update_product_by_id
 from app.models.domains import (
-    base as _base_domainss,
+    base as _base_domains,
 )
 from app.models.schemas import (
     products as _products_schemas,
@@ -20,7 +21,8 @@ from app.models.schemas import (
 from app.utils import (
     file_utils as _file_utils,
     db_utils as _db_utils,
-    auth_utils as _auth_utils
+    auth_utils as _auth_utils,
+    image_utils as _image_utils
 )
 
 
@@ -44,17 +46,11 @@ class ProductService():
         response = _db_utils.row_to_dict(create_product(product_in))
         product_id = response.get('product_id')
         image_responses = []
-        for file in files:
-            destination_dir = f'media/products/{product_id}/images'
-            image_path = _file_utils.write_file(
-                destination_dir, file.filename,
-                file.file.read()
+        for index, file in enumerate(files, start=1):
+            image_db = _image_utils.create_product_image(
+                product_id, file,
+                index
             )
-            image_in = _images_schemas.ImageInCreate(**{
-                'product_id': product_id,
-                'image_path': image_path,
-            })
-            image_db = _file_utils.map_image(create_image(image_in))
             image_responses.append(image_db)
         response.update({'images': image_responses})
         return response
@@ -82,17 +78,46 @@ class ProductService():
         })
         return response
 
-    # def update_product_by_id(
-    #     self, product_id: int,
-    #     product_in: _products_schemas.ProductInUpdate
-    # ) -> _products_schemas.ProductRespDetail:
-    #     response = update_product_by_id(product_id, product_in)
-    #     return response
+    def update_product_info(
+        self, current_user,
+        product_in: _products_schemas.ProductInUpdate,
+    ) -> _products_schemas.ProductInUpdate:
+        _auth_utils.is_admin_or_staff(
+            current_user.user_id, is_raise_err=True
+        )
+        response = update_product_by_id(product_in)
+        return response
+
+    def delete_product_image(
+        self, current_user,
+        image_id: int,
+    ) -> _base_domains.Message:
+        _auth_utils.is_admin_or_staff(
+            current_user.user_id, is_raise_err=True
+        )
+        image = get_image_by_id(image_id)
+        _file_utils.remove_file(image.image_path)
+        _ = delete_image(image_id)
+        return {'message': 'Delete successfully'}
+
+    def add_product_image(
+        self, current_user,
+        product_id: int, image_order: int,
+        file: UploadFile
+    ) -> _images_schemas.ImageRespDetail:
+        _auth_utils.is_admin_or_staff(
+            current_user.user_id, is_raise_err=True
+        )
+        image_db = _image_utils.create_product_image(
+            product_id, file,
+            image_order
+        )
+        return image_db
 
     def delete_product_by_id(
         self, product_id: int,
         current_user
-    ) -> _base_domainss.Message:
+    ) -> _base_domains.Message:
         _auth_utils.is_admin_or_staff(
             current_user.user_id, is_raise_err=True
         )

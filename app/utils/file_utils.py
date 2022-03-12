@@ -45,8 +45,11 @@ def map_image(image) -> dict:
         files/get-image?image_path="
     if isinstance(image, ImageTable):
         path += f'{image.image_path}'
-    else:
-        path += f'{image}'
+        return {
+            'image_path': path.replace(' ', ''),
+            'image_order': image.image_order
+        }
+    path += f'{image}'
     return {'image_path': path.replace(' ', '')}
 
 
@@ -54,3 +57,8 @@ def map_images(images: List[ImageTable]) -> List[dict]:
     return list(
         map(map_image, images)
     )
+
+
+def remove_file(filename: str):
+    if os.path.exists(filename):
+        os.remove(filename)

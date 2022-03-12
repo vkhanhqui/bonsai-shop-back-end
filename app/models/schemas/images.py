@@ -5,13 +5,15 @@ from app.models.domains import (
 
 
 class ImageInCreate(
-    _images_domain.ImagePath, _base_domains.ProductId
+    _images_domain.ImagePath, _base_domains.ProductId,
+    _images_domain.ImageOrder
 ):
     pass
 
 
 class ImageRespDetail(
     _images_domain.ImagePath,
+    _images_domain.ImageOrder
     # _base_domains.CreateAt,
 ):
 

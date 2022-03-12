@@ -24,10 +24,10 @@ insert into products(product_name, product_price, category_id, created_at)
 	values('string', 1, 1, '2022-02-27 09:23:39');
 
 -- images
-insert into images(image_path, product_id, created_at)
-	values('media/products/1/images/25wpvBXVCrN2Pb8bcjN4gaQ5GTy.jpeg', 1, '2022-02-27 09:23:39');
-insert into images(image_path, product_id, created_at)
-	values('media/products/1/images/25wpv4MihEa0ktjoXVe010Hmg1O.jpeg', 1, '2022-02-27 09:23:39');
+insert into images(image_path, image_order, product_id, created_at)
+	values('media/products/1/images/25wpvBXVCrN2Pb8bcjN4gaQ5GTy.jpeg', 1, 1, '2022-02-27 09:23:39');
+insert into images(image_path, image_order, product_id, created_at)
+	values('media/products/1/images/25wpv4MihEa0ktjoXVe010Hmg1O.jpeg', 2, 1, '2022-02-27 09:23:39');
 
 -- addresses
 insert into addresses(city, district, full_address, phone_number, user_id, created_at)
