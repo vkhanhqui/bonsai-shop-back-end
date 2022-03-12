@@ -1,4 +1,5 @@
 from typing import List
+from app.db.admins.update_user_info import update_user_info
 # from app.db.bills.create_bill import create_bill
 # from app.db.bills.get_bill_by_user_id_and_bill_status import \
 #     get_bill_by_user_id_and_bill_status
@@ -134,3 +135,12 @@ class CustomerService():
             **card_in.dict()
         )
         return {'message': bill_status}
+
+    def update_user_info(
+        self, current_user,
+        info_in: _admin_schemas.StaffInUpdate
+    ) -> _base_domains.Message:
+        _ = update_user_info(
+            current_user.user_id, info_in
+        )
+        return {'message': 'Update user info successfully'}

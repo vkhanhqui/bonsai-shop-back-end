@@ -117,3 +117,18 @@ async def confirm_bill(
         Depends(_auth_utils.get_current_user)
 ):
     return customer_service.confirm_bill(current_user, bill_in)
+
+
+@router.put(
+    '/update-user-info',
+    response_model=_base_domains.Message,
+    status_code=status.HTTP_200_OK
+)
+async def update_user_info(
+    info_in: _admin_schemas.StaffInUpdate,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return customer_service.update_user_info(
+        current_user, info_in
+    )

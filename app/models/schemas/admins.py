@@ -21,3 +21,10 @@ class StaffRespDetail(
 
     class Config:
         orm_mode = True
+
+
+class StaffInUpdate(
+    _users_domain.FirstName, _users_domain.LastName,
+    _users_domain.Birthday,
+):
+    pass
