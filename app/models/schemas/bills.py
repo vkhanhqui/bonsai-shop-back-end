@@ -75,7 +75,20 @@ class CustomerRemoveItemsIn(
     pass
 
 
-class CustomerConfirmBillIn(
-    _base_domain.BillId, _base_domain.AddressId,
+# class CustomerConfirmBillIn(
+#     _base_domain.BillId, _base_domain.AddressId,
+# ):
+#     pass
+
+
+# new flow
+class ItemIn(
+    _base_domain.ProductId, _bills_domain.BillManagementNumberProduct
 ):
     pass
+
+
+class CustomerConfirmBillIn(
+    _base_domain.UserId, _base_domain.AddressId,
+):
+    items: List[ItemIn]

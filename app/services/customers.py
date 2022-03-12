@@ -1,14 +1,14 @@
 from typing import List
-from app.db.bills.create_bill import create_bill
+# from app.db.bills.create_bill import create_bill
+# from app.db.bills.get_bill_by_user_id_and_bill_status import \
+#     get_bill_by_user_id_and_bill_status
+# from app.db.bills.get_cart import get_cart
+# from app.db.bills.remove_items_from_bill import remove_items_from_bill
+# from app.db.bills.update_bill_mnm_by_product_id_and_bill_id import \
+#     update_bill_mnm_by_product_id_and_bill_id
+from app.db.bills.customer_confirm_bill import confirm_bill
 from app.db.bills.customer_get_all_bills import get_all_bills
-from app.db.bills.get_bill_by_user_id_and_bill_status import \
-    get_bill_by_user_id_and_bill_status
 from app.db.bills.get_bill_detail import get_bill_detail
-from app.db.bills.get_cart import get_cart
-from app.db.bills.remove_items_from_bill import remove_items_from_bill
-from app.db.bills.update_bill_by_id import update_bill_by_id
-from app.db.bills.update_bill_mnm_by_product_id_and_bill_id import \
-    update_bill_mnm_by_product_id_and_bill_id
 from app.db.customers.get_user_by_id import get_user_by_id
 from app.db.admins.create_user import create_user
 from app.db.images.get_main_image import get_main_image
@@ -72,52 +72,61 @@ class CustomerService():
         }
         return response
 
-    def get_cart(
-        self, user_id: str
-    ) -> _bills_schemas.CustomerBillDetailResp:
-        cart = get_cart(user_id)
-        if cart:
-            return self.get_bill_detail(cart.bill_id)
-        return None
+    # def get_cart(
+    #     self, user_id: str
+    # ) -> _bills_schemas.CustomerBillDetailResp:
+    #     cart = get_cart(user_id)
+    #     if cart:
+    #         return self.get_bill_detail(cart.bill_id)
+    #     return None
 
-    def add_to_cart(
-        self, card_in: _bills_schemas.CustomerAddCardIn
-    ) -> _base_domains.Message:
-        user_id = card_in.user_id
-        product_id = card_in.product_id
-        number_product = card_in.number_product
-        bill_status = config.bill_status.get('customer_created')
-        bill = get_bill_by_user_id_and_bill_status(
-            user_id, bill_status=bill_status
-        )
-        msg_response = 'Created the cart successfully'
-        if bill:
-            # add to cart
-            _ = update_bill_mnm_by_product_id_and_bill_id(
-                product_id, bill.bill_id,
-                number_product
-            )
-            msg_response = 'Updated the cart successfully'
-        else:
-            # create a cart
-            _ = create_bill(
-                user_id, product_id,
-                number_product
-            )
-        return {'message': msg_response}
+    # def add_to_cart(
+    #     self, card_in: _bills_schemas.CustomerAddCardIn
+    # ) -> _base_domains.Message:
+    #     user_id = card_in.user_id
+    #     product_id = card_in.product_id
+    #     number_product = card_in.number_product
+    #     bill_status = config.bill_status.get('customer_created')
+    #     bill = get_bill_by_user_id_and_bill_status(
+    #         user_id, bill_status=bill_status
+    #     )
+    #     msg_response = 'Created the cart successfully'
+    #     if bill:
+    #         # add to cart
+    #         _ = update_bill_mnm_by_product_id_and_bill_id(
+    #             product_id, bill.bill_id,
+    #             number_product
+    #         )
+    #         msg_response = 'Updated the cart successfully'
+    #     else:
+    #         # create a cart
+    #         _ = create_bill(
+    #             user_id, product_id,
+    #             number_product
+    #         )
+    #     return {'message': msg_response}
 
-    def remove_items_from_cart(
-        self, card_in: _bills_schemas.CustomerRemoveItemsIn
-    ) -> _base_domains.Message:
-        _ = remove_items_from_bill(**card_in.dict())
-        return {'message': 'Removed items successfully'}
+    # def remove_items_from_cart(
+    #     self, card_in: _bills_schemas.CustomerRemoveItemsIn
+    # ) -> _base_domains.Message:
+    #     _ = remove_items_from_bill(**card_in.dict())
+    #     return {'message': 'Removed items successfully'}
 
+    # def confirm_bill(
+    #     self, bill_in: _bills_schemas.CustomerConfirmBillIn
+    # ) -> _base_domains.Message:
+    #     bill_status = config.bill_status.get('customer_confirmed')
+    #     _ = update_bill_by_id(
+    #         bill_in.bill_id, bill_status,
+    #         bill_in.address_id
+    #     )
+    #     return {'message': bill_status}
+
+    # new flow
     def confirm_bill(
-        self, bill_in: _bills_schemas.CustomerConfirmBillIn
+        self, card_in: _bills_schemas.CustomerConfirmBillIn
     ) -> _base_domains.Message:
         bill_status = config.bill_status.get('customer_confirmed')
-        _ = update_bill_by_id(
-            bill_in.bill_id, bill_status,
-            bill_in.address_id
-        )
+        # create a cart
+        _ = confirm_bill(**card_in.dict())
         return {'message': bill_status}

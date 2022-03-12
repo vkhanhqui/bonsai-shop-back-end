@@ -56,36 +56,47 @@ async def get_bill_detail(bill_id: str):
     return customer_service.get_bill_detail(bill_id)
 
 
-@router.get(
-    '/get-cart/{user_id}',
-    response_model=_bills_schemas.CustomerBillDetailResp,
-    status_code=status.HTTP_200_OK
-)
-async def get_cart(user_id: str):
-    return customer_service.get_cart(user_id)
+# @router.get(
+#     '/get-cart/{user_id}',
+#     response_model=_bills_schemas.CustomerBillDetailResp,
+#     status_code=status.HTTP_200_OK
+# )
+# async def get_cart(user_id: str):
+#     return customer_service.get_cart(user_id)
 
 
+# @router.post(
+#     '/add-to-cart',
+#     response_model=_base_domains.Message,
+#     status_code=status.HTTP_200_OK
+# )
+# async def add_to_cart(card_in: _bills_schemas.CustomerAddCardIn):
+#     return customer_service.add_to_cart(card_in)
+
+
+# @router.put(
+#     '/remove-items-from-cart',
+#     response_model=_base_domains.Message,
+#     status_code=status.HTTP_200_OK
+# )
+# async def remove_items_from_cart(
+#     card_in: _bills_schemas.CustomerRemoveItemsIn
+# ):
+#     return customer_service.remove_items_from_cart(card_in)
+
+
+# @router.put(
+#     '/confirm-bill',
+#     response_model=_base_domains.Message,
+#     status_code=status.HTTP_200_OK
+# )
+# async def confirm_bill(
+#     bill_in: _bills_schemas.CustomerConfirmBillIn,
+# ):
+#     return customer_service.confirm_bill(bill_in)
+
+# new flow
 @router.post(
-    '/add-to-cart',
-    response_model=_base_domains.Message,
-    status_code=status.HTTP_200_OK
-)
-async def add_to_cart(card_in: _bills_schemas.CustomerAddCardIn):
-    return customer_service.add_to_cart(card_in)
-
-
-@router.put(
-    '/remove-items-from-cart',
-    response_model=_base_domains.Message,
-    status_code=status.HTTP_200_OK
-)
-async def remove_items_from_cart(
-    card_in: _bills_schemas.CustomerRemoveItemsIn
-):
-    return customer_service.remove_items_from_cart(card_in)
-
-
-@router.put(
     '/confirm-bill',
     response_model=_base_domains.Message,
     status_code=status.HTTP_200_OK
