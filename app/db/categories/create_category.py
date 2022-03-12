@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from app.models.models import CategoryTable
 from app.models.schemas.categories import CategoryInCreate
 from app.utils.db_utils import session
@@ -12,4 +13,4 @@ def create_category(category_in: CategoryInCreate) -> CategoryTable:
         return new_category
     except Exception:
         session.rollback()
-        raise
+        raise HTTPException(status_code=400, detail='Category already existed')

@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from app.models.models import CategoryTable
 from app.models.schemas.categories import CategoryInUpdate
 from app.utils.db_utils import session
@@ -12,4 +13,4 @@ def update_category(category_in: CategoryInUpdate):
         return category_in
     except Exception:
         session.rollback()
-        raise
+        raise HTTPException(status_code=400, detail='Category already existed')

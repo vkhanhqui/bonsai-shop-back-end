@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from app.models.models import UserTable
 from app.models.schemas.admins import StaffInCreate
 from app.utils.db_utils import session
@@ -23,6 +24,6 @@ def create_user(
         session.flush()
         session.commit()
         return new_staff
-    except:
+    except Exception:
         session.rollback()
-        raise
+        raise HTTPException(status_code=400, detail='User already existed')
