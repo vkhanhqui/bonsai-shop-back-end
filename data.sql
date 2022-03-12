@@ -13,7 +13,7 @@ insert into roles(role_name) values('Customer');
 -- user
 insert into users(username, hashed_password, email, birthday, first_name, last_name, role_id, created_at)
 	values('string', '$2b$12$nEVAr6aZjD4zOmx98e.2FOY4EAZCPgM2OGkwsK6jt8Uy9OrdTtCUa',
-		'user@example.com', '2022-02-27', 'string', 'string', 2, '2022-02-27 09:23:39');
+		'user@example.com', '2022-02-27', 'string', 'string', 1, '2022-02-27 09:23:39');
 
 -- category
 insert into categories(category_name, created_at)
@@ -30,16 +30,8 @@ insert into images(image_path, product_id, created_at)
 	values('media/products/1/images/25wpv4MihEa0ktjoXVe010Hmg1O.jpeg', 1, '2022-02-27 09:23:39');
 
 -- addresses
-insert into addresses(city, district, full_address, user_id, created_at)
-	values('string', 'string', 'string', 1, '2022-02-27 09:23:39');
-
--- bills
-insert into bills(customer_id, bill_status, created_at)
-	values(1, 'Customer created', '2022-02-27 09:23:39');
-
--- billmanagements
-insert into billmanagements(product_id, bill_id, number_product, created_at)
-	values(1, 1, 10, '2022-02-27 09:23:39');
+insert into addresses(city, district, full_address, phone_number, user_id, created_at)
+	values('string', 'string', 'string', 'string', 1, '2022-02-27 09:23:39');
 
 -- queries
 select * from billmanagements;

@@ -20,17 +20,21 @@ from app.models.schemas import (
 from app.utils import (
     file_utils as _file_utils,
     db_utils as _db_utils,
+    auth_utils as _auth_utils
 )
 
 
 class ProductService():
 
     def create_product(
-        self,
+        self, current_user,
         product_name: str, product_price: float,
         category_id: int, files: list[UploadFile],
         description: str = None,
     ) -> _products_schemas.ProductRespDetail:
+        _auth_utils.is_admin_or_staff(
+            current_user.user_id, is_raise_err=True
+        )
         product_in = _products_schemas.ProductInCreate(**{
             'product_name': product_name,
             'product_price': product_price,
@@ -86,8 +90,12 @@ class ProductService():
     #     return response
 
     def delete_product_by_id(
-        self, product_id: int
+        self, product_id: int,
+        current_user
     ) -> _base_domainss.Message:
+        _auth_utils.is_admin_or_staff(
+            current_user.user_id, is_raise_err=True
+        )
         dirname = f'media/products/{product_id}'
         _ = delete_product_by_id(product_id)
         _ = _file_utils.remove_dir(dirname)

@@ -10,6 +10,7 @@ from jose import JWTError, jwt
 from app.auth.auth import pwd_context, oauth2_scheme
 from app.db.admins.get_user_by_username import get_user_by_username
 from app.core.config import config
+from app.db.customers.get_user_by_id import get_user_by_id
 
 
 def verify_password(plain_password, hashed_password):
@@ -63,3 +64,30 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     if not user:
         raise credentials_exception
     return user
+
+
+def is_admin(user_id: int, is_raise_err: bool):
+    user = get_user_by_id(user_id)
+    if user.role_id == 1:
+        return True
+    if is_raise_err:
+        raise HTTPException(status_code=403, detail='Forbidden')
+    return False
+
+
+def is_staff(user_id: int, is_raise_err: bool):
+    user = get_user_by_id(user_id)
+    if user.role_id == 2:
+        return True
+    if is_raise_err:
+        raise HTTPException(status_code=403, detail='Forbidden')
+    return False
+
+
+def is_admin_or_staff(user_id: int, is_raise_err: bool):
+    user = get_user_by_id(user_id)
+    if user.role_id == 1 or user.role_id == 2:
+        return True
+    if is_raise_err:
+        raise HTTPException(status_code=403, detail='Forbidden')
+    return False

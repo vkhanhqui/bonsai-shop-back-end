@@ -89,6 +89,6 @@ class ItemIn(
 
 
 class CustomerConfirmBillIn(
-    _base_domain.UserId, _base_domain.AddressId,
+    _base_domain.AddressId,
 ):
     items: List[ItemIn]

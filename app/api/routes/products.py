@@ -3,16 +3,20 @@ from fastapi import (
     APIRouter,
     status,
     UploadFile,
+    Depends,
 )
 
 from app.services.products import ProductService
 from app.models.schemas import (
     products as _product_schemas,
+    auth as _auth_schemas,
 )
 
 from app.models.domains import (
     base as _base_domains
 )
+from app.utils import auth_utils as _auth_utils
+
 
 router = APIRouter()
 product_service = ProductService()
@@ -27,11 +31,12 @@ async def create_product(
     product_name: str, product_price: float,
     category_id: int, files: list[UploadFile],
     description: str = None,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
     return product_service.create_product(
-        product_name, product_price,
-        category_id, files,
-        description,
+        current_user, product_name, product_price,
+        category_id, files, description
     )
 
 
@@ -71,8 +76,12 @@ async def get_product_by_id(product_id: int):
     status_code=status.HTTP_200_OK,
     response_model=_base_domains.Message
 )
-async def delete_product_by_id(product_id: int):
-    return product_service.delete_product_by_id(product_id)
+async def delete_product_by_id(
+    product_id: int,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return product_service.delete_product_by_id(product_id, current_user)
 
 
 @router.get(

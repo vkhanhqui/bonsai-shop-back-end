@@ -5,10 +5,14 @@ from app.utils.db_utils import session
 
 def update_bill_by_id(
     bill_id: int, bill_status: str,
-    address_id: int = None
+    address_id: int = None, staff_or_admin_id: int = None
 ):
     try:
         update_query = {BillTable.bill_status: bill_status}
+        if staff_or_admin_id:
+            update_query.update({
+                'staff_or_admin_id': staff_or_admin_id
+            })
         if address_id:
             address = get_address_by_id(address_id)
             if address:

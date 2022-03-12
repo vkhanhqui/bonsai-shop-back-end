@@ -2,29 +2,32 @@ from typing import List
 from fastapi import (
     APIRouter,
     status,
+    Depends,
 )
 
 from app.services.customers import CustomerService
 from app.models.schemas import (
     admins as _admin_schemas,
     bills as _bills_schemas,
+    auth as _auth_schemas
 )
 from app.models.domains import (
     base as _base_domains,
 )
+from app.utils import auth_utils as _auth_utils
 
 
 router = APIRouter()
 customer_service = CustomerService()
 
 
-@router.get(
-    '/get-user-by-id/{user_id}',
-    response_model=_admin_schemas.StaffRespDetail,
-    status_code=status.HTTP_200_OK
-)
-async def get_user_by_id(user_id: str):
-    return customer_service.get_user_by_id(user_id)
+# @router.get(
+#     '/get-user-by-id/{user_id}',
+#     response_model=_admin_schemas.StaffRespDetail,
+#     status_code=status.HTTP_200_OK
+# )
+# async def get_user_by_id(user_id: str):
+#     return customer_service.get_user_by_id(user_id)
 
 
 @router.post(
@@ -39,12 +42,15 @@ async def create_customer(
 
 
 @router.get(
-    '/get-bills/{user_id}',
+    '/get-bills',
     response_model=List[_bills_schemas.CustomerAllBillsResp],
     status_code=status.HTTP_200_OK
 )
-async def get_bills(user_id: str):
-    return customer_service.get_bills(user_id)
+async def get_bills(
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return customer_service.get_bills(current_user.user_id)
 
 
 @router.get(
@@ -52,7 +58,11 @@ async def get_bills(user_id: str):
     response_model=_bills_schemas.CustomerBillDetailResp,
     status_code=status.HTTP_200_OK
 )
-async def get_bill_detail(bill_id: str):
+async def get_bill_detail(
+    bill_id: str,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
     return customer_service.get_bill_detail(bill_id)
 
 
@@ -103,5 +113,7 @@ async def get_bill_detail(bill_id: str):
 )
 async def confirm_bill(
     bill_in: _bills_schemas.CustomerConfirmBillIn,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return customer_service.confirm_bill(bill_in)
+    return customer_service.confirm_bill(current_user, bill_in)
