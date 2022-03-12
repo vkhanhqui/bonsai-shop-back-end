@@ -30,8 +30,8 @@ insert into images(image_path, product_id, created_at)
 	values('media/products/1/images/25wpv4MihEa0ktjoXVe010Hmg1O.jpeg', 1, '2022-02-27 09:23:39');
 
 -- addresses
-insert into addresses(city, district, full_address, user_id, created_at)
-	values('string', 'string', 'string', 1, '2022-02-27 09:23:39');
+insert into addresses(city, district, full_address, phone_number, user_id, created_at)
+	values('string', 'string', 'string', 'string', 1, '2022-02-27 09:23:39');
 
 -- bills
 insert into bills(customer_id, bill_status, created_at)

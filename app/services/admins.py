@@ -9,37 +9,63 @@ from app.models.schemas import (
     admins as _admin_schemas,
     bills as _bills_schemas,
 )
-from app.utils import bill_utils as _bill_utils
+from app.utils import (
+    bill_utils as _bill_utils,
+    auth_utils as _auth_utils
+)
 from app.core.config import config
 
 
 class AdminService():
 
     def create_staff(
-        self, staff_in: _admin_schemas.StaffInCreate
+        self, current_user,
+        staff_in: _admin_schemas.StaffInCreate
     ) -> _admin_schemas.StaffRespDetail:
+        _auth_utils.is_admin(
+            current_user.user_id, is_raise_err=True
+        )
         response = create_user(staff_in, role_name='staff')
         return response
 
     def get_all_staffs(
-        self
+        self, current_user
     ) -> List[_admin_schemas.StaffRespDetail]:
+        _auth_utils.is_admin(
+            current_user.user_id, is_raise_err=True
+        )
         response = get_all_staffs()
         return response
 
-    def delete_staff(self, staff_id: int) -> _base_domains.Message:
+    def delete_staff(
+        self, current_user,
+        staff_id: int
+    ) -> _base_domains.Message:
+        _auth_utils.is_admin(
+            current_user.user_id, is_raise_err=True
+        )
         _ = delete_staff(staff_id)
         return {'message': 'Delete successfully'}
 
     def get_all_bills(
-        self
+        self, current_user
     ) -> List[_bills_schemas.AdminBillRespDetail]:
+        _auth_utils.is_admin_or_staff(
+            current_user.user_id, is_raise_err=True
+        )
         bills = get_all_bills()
         return _bill_utils.get_bills_in_detail(bills, is_admin=True)
 
     def confirm_bill(
-        self, bill_id: int
+        self, current_user,
+        bill_id: int
     ) -> _base_domains.Message:
+        _auth_utils.is_admin_or_staff(
+            current_user.user_id, is_raise_err=True
+        )
         bill_status = config.bill_status.get('admin_confirmed')
-        _ = update_bill_by_id(bill_id, bill_status)
+        _ = update_bill_by_id(
+            bill_id, bill_status,
+            staff_or_admin_id=current_user.user_id
+        )
         return {'message': bill_status}

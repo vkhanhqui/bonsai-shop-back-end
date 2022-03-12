@@ -2,6 +2,7 @@ from typing import List
 from fastapi import (
     APIRouter,
     status,
+    Depends,
 )
 
 from app.services.admins import AdminService
@@ -9,7 +10,9 @@ from app.models.domains import base as _base_domains
 from app.models.schemas import (
     admins as _admin_schemas,
     bills as _bills_schemas,
+    auth as _auth_schemas,
 )
+from app.utils import auth_utils as _auth_utils
 
 
 router = APIRouter()
@@ -23,8 +26,10 @@ admin_service = AdminService()
 )
 async def create_staff(
     staff_in: _admin_schemas.StaffInCreate,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return admin_service.create_staff(staff_in)
+    return admin_service.create_staff(current_user, staff_in)
 
 
 @router.get(
@@ -32,8 +37,11 @@ async def create_staff(
     response_model=List[_admin_schemas.StaffRespDetail],
     status_code=status.HTTP_200_OK
 )
-async def get_all_staffs():
-    return admin_service.get_all_staffs()
+async def get_all_staffs(
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return admin_service.get_all_staffs(current_user)
 
 
 @router.delete(
@@ -42,9 +50,11 @@ async def get_all_staffs():
     response_model=_base_domains.Message
 )
 async def delete_staff(
-    staff_id: int
+    staff_id: int,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return admin_service.delete_staff(staff_id)
+    return admin_service.delete_staff(current_user, staff_id)
 
 
 @router.get(
@@ -52,8 +62,11 @@ async def delete_staff(
     response_model=List[_bills_schemas.AdminBillRespDetail],
     status_code=status.HTTP_200_OK
 )
-async def get_all_bills():
-    return admin_service.get_all_bills()
+async def get_all_bills(
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return admin_service.get_all_bills(current_user)
 
 
 @router.put(
@@ -63,5 +76,9 @@ async def get_all_bills():
 )
 async def confirm_bill(
     bill_id: int,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
 ):
-    return admin_service.confirm_bill(bill_id)
+    return admin_service.confirm_bill(
+        current_user, bill_id
+    )
