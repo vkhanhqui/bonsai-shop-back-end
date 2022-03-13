@@ -7,6 +7,7 @@ from app.utils import (
 from app.models.schemas import (
     images as _images_schemas,
 )
+from app.core.config import config
 
 
 def create_product_image(
@@ -25,3 +26,9 @@ def create_product_image(
     })
     image_db = _file_utils.map_image(create_image(image_in))
     return image_db
+
+
+def get_image_path_from_url(image_path: str):
+    path = f"{config.base_url}/bonsai-backend/\
+        files/get-image?image_path=".replace(' ', '')
+    return image_path.replace(path, '')

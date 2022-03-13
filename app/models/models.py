@@ -123,8 +123,10 @@ class AddressTable(db_connection.Base):
 class BlogTable(db_connection.Base):
     __tablename__ = 'blogs'
     blog_id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
-    content_in_markdown = Column(Text, nullable=False)
+    title = Column(String(255), nullable=False, unique=True)
+    content = Column(Text, nullable=False)
+    image_path = Column(String(255), nullable=False)
+    description = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     staff_or_admin_id = Column(Integer, ForeignKey('users.user_id'))
 

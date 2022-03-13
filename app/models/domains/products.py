@@ -1,3 +1,4 @@
+from typing import Text
 from pydantic import BaseModel, Field
 
 
@@ -13,4 +14,4 @@ class ProductPrice(BaseModel):
 
 
 class Description(BaseModel):
-    description: str = Field(None, alias='description')
+    description: Text = Field(None, alias='description')
