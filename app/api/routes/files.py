@@ -2,12 +2,11 @@ from fastapi import (
     APIRouter,
     status,
 )
-import os
-
-from fastapi.responses import FileResponse
+from app.services.images import ImageService
 
 
 router = APIRouter()
+image_service = ImageService()
 
 
 @router.get(
@@ -17,6 +16,4 @@ router = APIRouter()
 def get_image(
     image_path: str
 ):
-    if os.path.exists(image_path):
-        return FileResponse(image_path, media_type="image/jpeg")
-    return {"error": "File not found!"}
+    return image_service.get_image(image_path)

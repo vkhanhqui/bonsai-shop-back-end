@@ -9,6 +9,7 @@ from app.api.routes import (
     files as file_api,
     login as login_api,
     addresses as address_api,
+    blogs as blog_api,
 )
 
 
@@ -67,4 +68,11 @@ router.include_router(
     address_api.router,
     tags=['addresses'],
     prefix='/addresses'
+)
+
+
+router.include_router(
+    blog_api.router,
+    tags=['blogs'],
+    prefix='/blogs'
 )

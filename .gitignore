@@ -2,7 +2,7 @@
 test*.py
 
 # Media files
-# media/
+media/blogs/
 
 # Code editor
 .idea/

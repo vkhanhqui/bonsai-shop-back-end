@@ -14,8 +14,13 @@ class ImageInCreate(
 class ImageRespDetail(
     _images_domain.ImagePath,
     _images_domain.ImageOrder
-    # _base_domains.CreateAt,
 ):
 
     class Config:
         orm_mode = True
+
+
+class BlogImageResp(
+    _images_domain.ImagePath,
+):
+    pass
