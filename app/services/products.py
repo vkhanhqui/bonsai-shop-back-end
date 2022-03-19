@@ -24,6 +24,7 @@ from app.utils import (
     auth_utils as _auth_utils,
     image_utils as _image_utils
 )
+from app.utils.product_utils import get_total_stars
 
 
 class ProductService():
@@ -65,6 +66,9 @@ class ProductService():
             product_response.update({
                 'images': _file_utils.map_images(product.images)
             })
+            product_id = product_response.get('product_id')
+            star_number = get_total_stars(product_id)
+            product_response.update({'star_number': star_number})
             response.append(product_response)
         return response
 
@@ -73,8 +77,10 @@ class ProductService():
     ) -> _products_schemas.ProductRespDetail:
         product = get_product_by_id(product_id)
         response = _db_utils.row_to_dict(product)
+        star_number = get_total_stars(product_id)
         response.update({
-            'images': _file_utils.map_images(product.images)
+            'images': _file_utils.map_images(product.images),
+            'star_number': star_number
         })
         return response
 

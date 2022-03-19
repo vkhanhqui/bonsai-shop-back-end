@@ -7,7 +7,7 @@ class CreateAt(BaseModel):
 
 
 class Message(BaseModel):
-    message: str = Field(alias='message')
+    message: str = Field(default='', alias='message')
 
 
 class UserId(BaseModel):

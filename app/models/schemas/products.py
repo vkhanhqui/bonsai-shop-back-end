@@ -3,6 +3,7 @@ from typing import List
 from app.models.domains import (
     products as _products_domains,
     base as _base_domains,
+    ratings as _ratings_domains,
 )
 
 from app.models.schemas import (
@@ -20,6 +21,7 @@ class ProductInCreate(
 class ProductRespDetail(
     _products_domains.ProductName, _products_domains.ProductPrice,
     _products_domains.Description, _base_domains.ProductId,
+    _ratings_domains.StartNumber,
 ):
     images: List[_images_schemas.ImageRespDetail]
 

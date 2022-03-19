@@ -10,10 +10,18 @@ from app.api.routes import (
     login as login_api,
     addresses as address_api,
     blogs as blog_api,
+    ratings as rating_api,
 )
 
 
 router = APIRouter()
+
+
+router.include_router(
+    rating_api.router,
+    tags=['ratings'],
+    prefix='/ratings'
+)
 
 
 router.include_router(

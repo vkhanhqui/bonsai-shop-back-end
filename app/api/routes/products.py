@@ -36,8 +36,9 @@ async def create_product(
         Depends(_auth_utils.get_current_user)
 ):
     return product_service.create_product(
-        current_user, product_name, product_price,
-        category_id, files, description
+        current_user, product_name,
+        product_price, category_id,
+        files, description
     )
 
 

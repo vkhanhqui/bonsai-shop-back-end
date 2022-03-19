@@ -48,7 +48,7 @@ class ProductTable(db_connection.Base):
     created_at = Column(DateTime, default=datetime.today)
     bill_managements = relationship("BillManagementTable")
     images = relationship("ImageTable")
-    rating = relationship("RatingTable")
+    ratings = relationship("RatingTable")
     category_id = Column(Integer, ForeignKey('categories.category_id'))
 
 
@@ -139,7 +139,7 @@ class RatingTable(db_connection.Base):
     created_at = Column(DateTime, default=datetime.today)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     product_id = Column(Integer, ForeignKey('products.product_id'))
-    comments = relationship("CommentTable")
+    comments = relationship("CommentTable", passive_deletes=True)
 
 
 class CommentTable(db_connection.Base):
@@ -148,4 +148,7 @@ class CommentTable(db_connection.Base):
     message = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     staff_or_customer_id = Column(Integer, ForeignKey('users.user_id'))
-    rating_id = Column(Integer, ForeignKey('rating.rating_id'))
+    rating_id = Column(
+        Integer,
+        ForeignKey('rating.rating_id', ondelete='CASCADE')
+    )

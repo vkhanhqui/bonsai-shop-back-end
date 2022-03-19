@@ -8,9 +8,9 @@ def delete_bill_mnm_by_product_id_and_bill_id(
     try:
         _ = session.query(BillManagementTable)\
          .filter(
-             BillManagementTable.product_id == product_id
-             and BillManagementTable.bill_id == bill_id
-             )\
+            BillManagementTable.product_id == product_id
+            and BillManagementTable.bill_id == bill_id
+            )\
          .delete()
         _ = session.commit()
     except Exception:
