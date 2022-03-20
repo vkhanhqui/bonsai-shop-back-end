@@ -57,9 +57,10 @@ class ProductService():
         return response
 
     def get_all_products(
-        self
+        self,
+        product_in: _products_schemas.ProductFilterResp
     ) -> List[_products_schemas.ProductRespDetail]:
-        products = get_all_products()
+        products = get_all_products(product_in)
         response = []
         for product in products:
             product_response = _db_utils.row_to_dict(product)

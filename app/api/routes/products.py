@@ -42,13 +42,15 @@ async def create_product(
     )
 
 
-@router.get(
+@router.post(
     "/get-all-products",
     status_code=status.HTTP_200_OK,
     response_model=List[_product_schemas.ProductRespDetail],
 )
-async def get_all_products():
-    return product_service.get_all_products()
+async def get_all_products(
+    product_in: _product_schemas.ProductFilterResp
+):
+    return product_service.get_all_products(product_in)
 
 
 @router.get(
