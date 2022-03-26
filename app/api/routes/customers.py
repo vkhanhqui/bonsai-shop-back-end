@@ -132,3 +132,14 @@ async def update_user_info(
     return customer_service.update_user_info(
         current_user, info_in
     )
+
+
+@router.get(
+    "/get-user-info",
+    response_model=_admin_schemas.StaffRespDetail
+)
+async def read_users_me(
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return current_user
