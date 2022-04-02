@@ -45,6 +45,7 @@ class ProductFilterResp(BaseModel):
     sort_name: str = ''
     range_price_from: str = ''
     range_price_to: str = ''
+    search_text: str = ''
     page: int = 1
 
     @validator("page", pre=True)

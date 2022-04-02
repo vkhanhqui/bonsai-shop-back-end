@@ -38,4 +38,13 @@ class LoginService():
             },
             expires_delta=access_token_expires
         )
-        return {"access_token": access_token, "token_type": "bearer"}
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "username": user.username,
+            "user_id": user.user_id,
+            "email": user.email,
+            "last_name": user.last_name,
+            "first_name": user.first_name,
+            "role_id": user.role_id,
+        }
