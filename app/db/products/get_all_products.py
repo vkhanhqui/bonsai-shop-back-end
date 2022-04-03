@@ -4,7 +4,7 @@ from app.utils.db_utils import session
 
 
 def get_all_products(product_in: ProductFilterResp):
-    limit = 90
+    limit = 10
     page = product_in.page
     offset = (page-1) * limit
     order_by = None
@@ -25,9 +25,14 @@ def get_all_products(product_in: ProductFilterResp):
             order_by = ProductTable.product_price.desc()
     # Main query
     products = session.query(ProductTable)
+    count_products = session.query(ProductTable)
     # Filter by category
     if category_id > 0:
         products = products.\
+            filter(
+                ProductTable.category_id == category_id
+            )
+        count_products = products.\
             filter(
                 ProductTable.category_id == category_id
             )
@@ -36,9 +41,14 @@ def get_all_products(product_in: ProductFilterResp):
             filter(
                 ProductTable.product_name.like(search_text)
             )
+        count_products = products.\
+            filter(
+                ProductTable.product_name.like(search_text)
+            )
     # Apply sort
     if sort_name or sort_price:
         products = products.order_by(order_by)
     # Apply pagination
     products = products.offset(offset).limit(limit).all()
-    return products
+    count_products = count_products.count()
+    return products, count_products

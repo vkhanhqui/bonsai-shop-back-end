@@ -59,18 +59,26 @@ class ProductService():
     def get_all_products(
         self,
         product_in: _products_schemas.ProductFilterResp
-    ) -> List[_products_schemas.ProductRespDetail]:
-        products = get_all_products(product_in)
-        response = []
-        for product in products:
+    ) -> _products_schemas.PaginationProducts:
+        products, total = get_all_products(product_in)
+        products_response = []
+        start_index = 1
+        if product_in.page > 1:
+            start_index = (product_in.page-1)*10 + 1
+        for index, product in enumerate(products, start_index):
             product_response = _db_utils.row_to_dict(product)
             product_response.update({
-                'images': _file_utils.map_images(product.images)
+                'images': _file_utils.map_images(product.images),
+                'stt': index,
             })
             product_id = product_response.get('product_id')
             star_number = get_total_stars(product_id)
             product_response.update({'star_number': star_number})
-            response.append(product_response)
+            products_response.append(product_response)
+        response = {
+            'products': products_response,
+            'total': total,
+        }
         return response
 
     def get_product_by_id(

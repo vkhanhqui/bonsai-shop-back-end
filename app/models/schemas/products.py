@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import HTTPException
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field, validator
 
 from app.models.domains import (
     products as _products_domains,
@@ -24,12 +24,17 @@ class ProductInCreate(
 class ProductRespDetail(
     _products_domains.ProductName, _products_domains.ProductPrice,
     _products_domains.Description, _base_domains.ProductId,
-    _ratings_domains.StartNumber,
+    _ratings_domains.StartNumber, _base_domains.CategoryId,
 ):
     images: List[_images_schemas.ImageRespDetail]
+    stt: int = Field(default=1)
 
     class Config:
         orm_mode = True
+
+
+class PaginationProducts(_base_domains.Total):
+    products: List[ProductRespDetail]
 
 
 class ProductInUpdate(

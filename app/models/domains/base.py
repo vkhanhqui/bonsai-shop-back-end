@@ -2,6 +2,10 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 
 
+class Total(BaseModel):
+    total: int = Field(default=0)
+
+
 class CreateAt(BaseModel):
     created_at: datetime = Field(alias='created_at')
 
