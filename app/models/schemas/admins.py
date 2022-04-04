@@ -18,6 +18,7 @@ class StaffRespDetail(
     _users_domain.Birthday, _base.RoleId,
     _base.UserId,
 ):
+    stt: int = 0
 
     class Config:
         orm_mode = True

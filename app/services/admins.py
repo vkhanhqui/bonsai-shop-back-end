@@ -11,7 +11,8 @@ from app.models.schemas import (
 )
 from app.utils import (
     bill_utils as _bill_utils,
-    auth_utils as _auth_utils
+    auth_utils as _auth_utils,
+    db_utils as _db_utils,
 )
 from app.core.config import config
 
@@ -34,7 +35,12 @@ class AdminService():
         _auth_utils.is_admin(
             current_user.user_id, is_raise_err=True
         )
-        response = get_all_staffs()
+        staffs = get_all_staffs()
+        response = []
+        for index, product in enumerate(staffs, 1):
+            category_response = _db_utils.row_to_dict(product)
+            category_response.update({'stt': index})
+            response.append(category_response)
         return response
 
     def delete_staff(

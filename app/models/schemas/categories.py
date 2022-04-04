@@ -14,6 +14,7 @@ class CategoryRespDetail(
     _categories_domain.CategoryName, _base.CategoryId,
     _base.CreateAt,
 ):
+    stt: int = 0
 
     class Config:
         orm_mode = True

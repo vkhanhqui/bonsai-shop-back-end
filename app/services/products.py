@@ -64,7 +64,7 @@ class ProductService():
         products_response = []
         start_index = 1
         if product_in.page > 1:
-            start_index = (product_in.page-1)*10 + 1
+            start_index = (product_in.page-1)*product_in.limit + 1
         for index, product in enumerate(products, start_index):
             product_response = _db_utils.row_to_dict(product)
             product_response.update({

@@ -52,6 +52,7 @@ class ProductFilterResp(BaseModel):
     range_price_to: str = ''
     search_text: str = ''
     page: int = 1
+    limit: int = 9
 
     @validator("page", pre=True)
     def check_str(cls, x):

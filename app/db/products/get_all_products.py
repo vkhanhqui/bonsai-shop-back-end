@@ -4,7 +4,7 @@ from app.utils.db_utils import session
 
 
 def get_all_products(product_in: ProductFilterResp):
-    limit = 10
+    limit = product_in.limit
     page = product_in.page
     offset = (page-1) * limit
     order_by = None

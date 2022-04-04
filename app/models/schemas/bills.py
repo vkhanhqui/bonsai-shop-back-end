@@ -30,6 +30,8 @@ class AdminBillRespDetail(
     bill_managements: List[BillManagementRespDetail]
     staff_or_admin: _admins_schemas.StaffRespDetail = None
     customer: _admins_schemas.StaffRespDetail
+    total_price: int = 0
+    stt: int = 1
 
     class Config:
         orm_mode = True

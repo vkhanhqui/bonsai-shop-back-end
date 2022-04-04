@@ -10,6 +10,7 @@ def get_bills_in_detail(
 ):
     response = []
     bill_ids = set()
+    stt = 0
     for bill in bills:
         bill_dict = bill._asdict()
         bill_table = bill_dict.get('BillTable')
@@ -21,6 +22,7 @@ def get_bills_in_detail(
             'full_address': bill_table.full_address,
         }
         if bill_id not in bill_ids:
+            stt += 1
             bill_ids.add(bill_id)
             bill_managements = bill_table.bill_managements
             bill_resp = {
@@ -36,17 +38,23 @@ def get_bills_in_detail(
                     'staff_or_admin': get_user_by_id(
                         bill_table.staff_or_admin_id),
                 })
+            total_price = 0
             for bill_management in bill_managements:
                 product_id = bill_management.product_id
                 main_image = _file_utils.map_image(get_main_image(product_id))
+                product_price = bill_management.product.product_price
                 bill_resp.get('bill_managements').append({
                     'product_id': product_id,
                     'product_name':
                         bill_management.product.product_name,
-                    'product_price':
-                        bill_management.product.product_price,
+                    'product_price': product_price,
                     'number_product': bill_management.number_product,
                     **main_image,
                 })
+                total_price += product_price
+            bill_resp.update({
+                'total_price': total_price,
+                'stt': stt
+            })
             response.append(bill_resp)
     return response

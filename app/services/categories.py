@@ -4,7 +4,8 @@ from app.db.categories.get_all_categories import get_all_categories
 from app.db.categories.update_category import update_category
 from app.models.schemas import categories as _category_schemas
 from app.utils import (
-    auth_utils as _auth_utils
+    db_utils as _db_utils,
+    auth_utils as _auth_utils,
 )
 
 
@@ -21,7 +22,12 @@ class CategoryService():
         return response
 
     def get_all_categories(self):
-        response = get_all_categories()
+        categories = get_all_categories()
+        response = []
+        for index, product in enumerate(categories, 1):
+            category_response = _db_utils.row_to_dict(product)
+            category_response.update({'stt': index})
+            response.append(category_response)
         return response
 
     def update_category(
