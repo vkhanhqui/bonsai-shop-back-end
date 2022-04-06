@@ -143,3 +143,44 @@ async def read_users_me(
         Depends(_auth_utils.get_current_user)
 ):
     return current_user
+
+
+@router.get(
+    "/vn-pay"
+)
+async def payment(
+    vn_amount: int,
+    order_info: str,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return customer_service.payment(vn_amount, order_info)
+
+
+@router.get(
+    "/payment-return"
+)
+async def payment_return(
+    vnp_Amount: int,
+    vnp_BankCode: str,
+    vnp_BankTranNo: int,
+    vnp_CardType: str,
+    vnp_OrderInfo: str,
+    vnp_PayDate: str,
+    vnp_ResponseCode: str,
+    vnp_TmnCode: str,
+    vnp_TransactionNo: str,
+    vnp_TransactionStatus: str,
+    vnp_TxnRef: str,
+    vnp_SecureHash: str,
+    # current_user: _auth_schemas.User =
+    #     Depends(_auth_utils.get_current_user)
+):
+    return customer_service.payment_return(
+        vnp_Amount, vnp_BankCode,
+        vnp_BankTranNo, vnp_CardType,
+        vnp_OrderInfo, vnp_PayDate,
+        vnp_ResponseCode, vnp_TmnCode,
+        vnp_TransactionNo, vnp_TransactionStatus,
+        vnp_TxnRef, vnp_SecureHash
+    )
