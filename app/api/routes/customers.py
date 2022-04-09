@@ -163,7 +163,7 @@ async def payment(
 async def payment_return(
     vnp_Amount: int,
     vnp_BankCode: str,
-    vnp_BankTranNo: int,
+    vnp_BankTranNo: str,
     vnp_CardType: str,
     vnp_OrderInfo: str,
     vnp_PayDate: str,

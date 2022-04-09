@@ -20,7 +20,6 @@ from app.models.schemas import (
 from app.models.domains import (
     base as _base_domains,
 )
-from app.core.config import config
 from app.utils import (
     file_utils as _file_utils,
 )
@@ -144,13 +143,12 @@ class CustomerService():
         self, current_user,
         card_in: _bills_schemas.CustomerConfirmBillIn
     ) -> _base_domains.Message:
-        bill_status = config.bill_status.get('customer_confirmed')
         # create a cart
-        _ = confirm_bill(
+        new_bill = confirm_bill(
             **{'user_id': current_user.user_id},
             **card_in.dict()
         )
-        return {'message': bill_status}
+        return {'message': new_bill.bill_id}
 
     def update_user_info(
         self, current_user,
@@ -249,7 +247,8 @@ class CustomerService():
                     #         "vnp_ResponseCode": vnp_ResponseCode
                     #     }
                     # )
-                    return RedirectResponse("http://localhost:3000")
+                    return RedirectResponse(
+                        "http://localhost:3000?isVNPaySuccess=true")
                 else:
                     return (
                         "payment_return.html",
