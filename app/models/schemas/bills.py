@@ -94,3 +94,4 @@ class CustomerConfirmBillIn(
     _base_domain.AddressId,
 ):
     items: List[ItemIn]
+    total_price: float

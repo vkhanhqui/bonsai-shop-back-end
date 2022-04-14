@@ -29,6 +29,8 @@ import uuid
 from app.services.vnpay import VNPay
 from fastapi.responses import RedirectResponse
 
+from app.utils.mail_utils import send_msg_via_sendgrid
+
 
 VNPAY_RETURN_URL = \
     'http://localhost:8000/bonsai-backend/customers/payment-return'
@@ -146,7 +148,17 @@ class CustomerService():
         # create a cart
         new_bill = confirm_bill(
             **{'user_id': current_user.user_id},
-            **card_in.dict()
+            **card_in.dict(exclude={'total_price'})
+        )
+        total_price = '{:20,.2f}'\
+            .format(card_in.total_price)\
+            .replace('.00', '').strip()
+        _ = send_msg_via_sendgrid(
+            template_id='d-ed854d393e1c4eb08f15d685f1d34fa3',
+            email_to=current_user.email,
+            dynamic_template_data={
+                "total_price": total_price
+            }
         )
         return {'message': new_bill.bill_id}
 
