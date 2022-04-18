@@ -1,3 +1,12 @@
+# Test files
+test*.py
+
+# Media files
+media/blogs/
+temp/
+# Code editor
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

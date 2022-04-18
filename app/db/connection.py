@@ -9,7 +9,7 @@ class DBConnection():
         f"mysql+pymysql://{config.database_username}"
         f":{config.database_pwd}@{config.database_host}"
         f"/{config.database_name}",
-        echo=True
+        echo=False
     )
 
     Base = declarative_base()

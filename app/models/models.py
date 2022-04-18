@@ -18,7 +18,8 @@ class UserTable(db_connection.Base):
     __tablename__ = 'users'
     user_id = Column(Integer, primary_key=True)
     username = Column(String(20), nullable=False, unique=True)
-    password = Column(String(20), nullable=False)
+    hashed_password = Column(String(200), nullable=False)
+    email = Column(String(30), nullable=False, unique=True)
     birthday = Column(Date, nullable=True)
     first_name = Column(String(20), nullable=False)
     last_name = Column(String(20), nullable=False)
@@ -47,14 +48,15 @@ class ProductTable(db_connection.Base):
     created_at = Column(DateTime, default=datetime.today)
     bill_managements = relationship("BillManagementTable")
     images = relationship("ImageTable")
-    rating = relationship("RatingTable")
-    catgory_id = Column(Integer, ForeignKey('categories.category_id'))
+    ratings = relationship("RatingTable")
+    category_id = Column(Integer, ForeignKey('categories.category_id'))
 
 
 class ImageTable(db_connection.Base):
     __tablename__ = 'images'
     image_id = Column(Integer, primary_key=True)
-    image_path = Column(String(100), nullable=False)
+    image_path = Column(String(255), nullable=False)
+    image_order = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     product_id = Column(Integer, ForeignKey('products.product_id'))
 
@@ -62,7 +64,7 @@ class ImageTable(db_connection.Base):
 class CategoryTable(db_connection.Base):
     __tablename__ = 'categories'
     category_id = Column(Integer, primary_key=True)
-    category_name = Column(String(100), nullable=False)
+    category_name = Column(String(100), nullable=False, unique=True)
     created_at = Column(DateTime, default=datetime.today)
     products = relationship("ProductTable")
     promotion_id = Column(
@@ -84,12 +86,17 @@ class BillTable(db_connection.Base):
     __tablename__ = 'bills'
     bill_id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.today)
+    bill_status = Column(String(100), nullable=False)
+    city = Column(String(100), nullable=True)
+    district = Column(String(100), nullable=True)
+    phone_number = Column(String(13), nullable=True)
+    full_address = Column(Text, nullable=True)
     customer_id = Column(Integer, ForeignKey('users.user_id'))
     staff_or_admin_id = Column(
         Integer, ForeignKey('users.user_id'),
         nullable=True
     )
-    address_id = Column(Integer, ForeignKey('addresses.address_id'))
+    bill_managements = relationship("BillManagementTable")
 
 
 class BillManagementTable(db_connection.Base):
@@ -99,14 +106,16 @@ class BillManagementTable(db_connection.Base):
     number_product = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     bills = relationship("BillTable")
+    product = relationship("ProductTable")
 
 
 class AddressTable(db_connection.Base):
     __tablename__ = 'addresses'
     address_id = Column(Integer, primary_key=True)
-    city = Column(String(100), nullable=True)
-    district = Column(String(100), nullable=True)
-    full_address = Column(String(100), nullable=True)
+    city = Column(String(100), nullable=False)
+    district = Column(String(100), nullable=False)
+    phone_number = Column(String(13), nullable=False)
+    full_address = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     user_id = Column(Integer, ForeignKey('users.user_id'))
 
@@ -114,8 +123,10 @@ class AddressTable(db_connection.Base):
 class BlogTable(db_connection.Base):
     __tablename__ = 'blogs'
     blog_id = Column(Integer, primary_key=True)
-    title = Column(String(255), nullable=False)
-    content_in_markdown = Column(Text, nullable=False)
+    title = Column(String(255), nullable=False, unique=True)
+    content = Column(Text, nullable=False)
+    image_path = Column(String(255), nullable=False)
+    description = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     staff_or_admin_id = Column(Integer, ForeignKey('users.user_id'))
 
@@ -128,7 +139,7 @@ class RatingTable(db_connection.Base):
     created_at = Column(DateTime, default=datetime.today)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     product_id = Column(Integer, ForeignKey('products.product_id'))
-    comments = relationship("CommentTable")
+    comments = relationship("CommentTable", passive_deletes=True)
 
 
 class CommentTable(db_connection.Base):
@@ -137,4 +148,7 @@ class CommentTable(db_connection.Base):
     message = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.today)
     staff_or_customer_id = Column(Integer, ForeignKey('users.user_id'))
-    rating_id = Column(Integer, ForeignKey('rating.rating_id'))
+    rating_id = Column(
+        Integer,
+        ForeignKey('rating.rating_id', ondelete='CASCADE')
+    )

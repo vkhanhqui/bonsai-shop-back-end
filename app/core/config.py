@@ -1,11 +1,22 @@
-from pydantic import BaseSettings
 import os
+
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
     app_name: str = "Bonsai Backend APIs"
     api_prefix: str = "/bonsai-backend"
     debug: bool = True
+    # to get a string like this run:
+    # openssl rand -hex 32
+    secret = '436d771eed17d16d7ad00d45ce0ca7a6d0dda2fb5901ff2d87375453a713fd0c'
+    algorithm = "HS256"
+    access_token_expire_minutes = 3000
+    bill_status = {
+        'customer_created': 'Customer created',
+        'customer_confirmed': 'Customer confirmed',
+        'admin_confirmed': 'Admin confirmed',
+    }
 
 
 class LocalSetting(Settings):
@@ -13,6 +24,7 @@ class LocalSetting(Settings):
     database_pwd = 'root'
     database_name = 'bonsai_db'
     database_host = 'localhost:3306'
+    base_url = 'http://localhost:8000'
 
 
 class DockerSettings(Settings):

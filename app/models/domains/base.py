@@ -2,12 +2,16 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 
 
+class Total(BaseModel):
+    total: int = Field(default=0)
+
+
 class CreateAt(BaseModel):
     created_at: datetime = Field(alias='created_at')
 
 
 class Message(BaseModel):
-    message: str = Field(alias='message')
+    message: str = Field(default='', alias='message')
 
 
 class UserId(BaseModel):
@@ -52,3 +56,7 @@ class RatingId(BaseModel):
 
 class CommentId(BaseModel):
     comment_id: int = Field(alias='comment_id')
+
+
+class ImageId(BaseModel):
+    image_id: int = Field(alias='image_id')

@@ -12,7 +12,7 @@ class RoleInCreate(
 
 class RoleRespDetail(
     _roles_domain.RoleName, _base.RoleId,
-    _base.CreateAt,
+    # _base.CreateAt,
 ):
 
     class Config:
