@@ -43,15 +43,16 @@ def get_bills_in_detail(
                 product_id = bill_management.product_id
                 main_image = _file_utils.map_image(get_main_image(product_id))
                 product_price = bill_management.product.product_price
+                number_product = bill_management.number_product
                 bill_resp.get('bill_managements').append({
                     'product_id': product_id,
                     'product_name':
                         bill_management.product.product_name,
                     'product_price': product_price,
-                    'number_product': bill_management.number_product,
+                    'number_product': number_product,
                     **main_image,
                 })
-                total_price += product_price
+                total_price += product_price * number_product
             bill_resp.update({
                 'total_price': total_price,
                 'stt': stt
