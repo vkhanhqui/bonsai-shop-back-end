@@ -154,7 +154,7 @@ class CustomerService():
             .format(card_in.total_price)\
             .replace('.00', '').strip()
         _ = send_msg_via_sendgrid(
-            template_id='d-ed854d393e1c4eb08f15d685f1d34fa3',
+            template_id='d-71a538eac9374d26a564e2060116408c',
             email_to=current_user.email,
             dynamic_template_data={
                 "total_price": total_price
