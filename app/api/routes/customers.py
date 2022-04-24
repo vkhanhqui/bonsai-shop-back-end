@@ -59,11 +59,24 @@ async def get_bills(
     status_code=status.HTTP_200_OK
 )
 async def get_bill_detail(
-    bill_id: str,
+    bill_id: int,
     current_user: _auth_schemas.User =
         Depends(_auth_utils.get_current_user)
 ):
     return customer_service.get_bill_detail(bill_id)
+
+
+@router.get(
+    '/export-bill/{bill_id}',
+    response_model=_bills_schemas.AdminBillRespDetail,
+    status_code=status.HTTP_200_OK
+)
+async def export_bill(
+    bill_id: int,
+    current_user: _auth_schemas.User =
+        Depends(_auth_utils.get_current_user)
+):
+    return customer_service.export_bill(current_user, bill_id)
 
 
 # @router.get(

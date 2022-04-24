@@ -5,14 +5,15 @@ from app.models.models import (
     BillManagementTable,
 )
 from app.utils.db_utils import session
-from app.core.config import config
 
 
-def get_all_bills():
-    bill_status = config.bill_status.get('customer_created')
-    bills = session.query(BillTable, BillManagementTable).\
-        filter(BillTable.bill_status != bill_status).\
-        join(BillTable.bill_managements).\
+def get_all_bills(customer_id: int = 0):
+    bills = session.query(BillTable, BillManagementTable)
+    if customer_id > 0:
+        bills = bills.filter(
+            BillTable.customer_id == customer_id
+        )
+    bills = bills.join(BillTable.bill_managements).\
         options(
             contains_eager(BillTable.bill_managements)).\
         join(BillManagementTable.product).\
