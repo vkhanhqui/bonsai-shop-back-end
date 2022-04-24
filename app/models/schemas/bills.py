@@ -38,9 +38,11 @@ class AdminBillRespDetail(
 
 
 class CustomerAllBillsResp(
-    _base_domain.CreateAt, _base_domain.BillId,
+    _base_domain.BillId,
     _bills_domain.BillStatus
 ):
+    stt: int = 0
+    created_at: str = ''
 
     class Config:
         orm_mode = True

@@ -12,6 +12,8 @@ from app.db.bills.customer_get_all_bills import get_all_bills
 from app.db.bills.get_bill_detail import get_bill_detail
 from app.db.customers.get_user_by_id import get_user_by_id
 from app.db.admins.create_user import create_user
+from app.db.bills.admin_get_all_bills import \
+    get_all_bills as get_detail_bills
 from app.db.images.get_main_image import get_main_image
 from app.models.schemas import (
     admins as _admin_schemas,
@@ -22,6 +24,8 @@ from app.models.domains import (
 )
 from app.utils import (
     file_utils as _file_utils,
+    bill_utils as _bill_utils,
+    db_utils as _db_utils,
 )
 # VNPAY
 from datetime import datetime
@@ -58,7 +62,18 @@ class CustomerService():
     def get_bills(
         self, user_id: str
     ) -> List[_bills_schemas.CustomerAllBillsResp]:
-        response = get_all_bills(user_id)
+        response = []
+        bills = get_all_bills(user_id)
+        for index, bill in enumerate(bills, 1):
+            bill_response = _db_utils.row_to_dict(bill)
+            bill_response.update({
+                'stt': index,
+                'created_at': datetime.date(
+                    datetime.fromisoformat(
+                        bill_response.get('created_at')
+                    )).isoformat()
+            })
+            response.append(bill_response)
         return response
 
     def get_bill_detail(
@@ -89,6 +104,20 @@ class CustomerService():
             'products': products
         }
         return response
+
+    def export_bill(
+        self, current_user,
+        bill_id: int
+    ) -> _bills_schemas.AdminBillRespDetail:
+        search_bills = []
+        bills = get_detail_bills(current_user.user_id)
+        for bill in bills:
+            bill_dict = bill._asdict()
+            bill_table = bill_dict.get('BillTable')
+            if bill_table.bill_id == bill_id:
+                search_bills.append(bill)
+                break
+        return _bill_utils.get_bills_in_detail(search_bills)[0]
 
     # def get_cart(
     #     self, user_id: str
