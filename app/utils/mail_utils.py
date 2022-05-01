@@ -4,7 +4,7 @@ import requests
 
 SENDGRID_API_URL = 'https://api.sendgrid.com/v3/mail/send'
 SENDGRID_API_KEY = \
-    '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'
+    ''
 
 
 def send_msg_via_sendgrid(
